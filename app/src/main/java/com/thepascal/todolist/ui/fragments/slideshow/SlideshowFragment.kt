@@ -1,4 +1,4 @@
-package com.thepascal.todolist.ui.gallery
+package com.thepascal.todolist.ui.fragments.slideshow
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -10,20 +10,20 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.thepascal.todolist.R
 
-class GalleryFragment : Fragment() {
+class SlideshowFragment : Fragment() {
 
-    private lateinit var galleryViewModel: GalleryViewModel
+    private lateinit var slideshowViewModel: SlideshowViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        galleryViewModel =
-            ViewModelProviders.of(this).get(GalleryViewModel::class.java)
-        val root = inflater.inflate(R.layout.fragment_gallery, container, false)
-        val textView: TextView = root.findViewById(R.id.text_gallery)
-        galleryViewModel.text.observe(viewLifecycleOwner, Observer {
+        slideshowViewModel =
+            ViewModelProviders.of(this).get(SlideshowViewModel::class.java)
+        val root = inflater.inflate(R.layout.fragment_slideshow, container, false)
+        val textView: TextView = root.findViewById(R.id.text_slideshow)
+        slideshowViewModel.text.observe(viewLifecycleOwner, Observer {
             textView.text = it
         })
         return root

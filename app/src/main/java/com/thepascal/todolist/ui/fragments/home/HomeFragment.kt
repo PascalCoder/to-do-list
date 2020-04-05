@@ -1,4 +1,4 @@
-package com.thepascal.todolist.ui.home
+package com.thepascal.todolist.ui.fragments.home
 
 import android.os.Bundle
 import android.util.Log

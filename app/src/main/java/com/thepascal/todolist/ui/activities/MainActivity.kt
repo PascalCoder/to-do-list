@@ -1,4 +1,4 @@
-package com.thepascal.todolist
+package com.thepascal.todolist.ui.activities
 
 import android.content.Intent
 import android.os.Bundle
@@ -16,9 +16,11 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.navigation.NavigationView
-import com.thepascal.todolist.ui.gallery.GalleryFragment
-import com.thepascal.todolist.ui.home.HomeFragment
-import com.thepascal.todolist.ui.slideshow.SlideshowFragment
+import com.thepascal.todolist.ui.viewmodels.MainViewModel
+import com.thepascal.todolist.R
+import com.thepascal.todolist.ui.fragments.gallery.GalleryFragment
+import com.thepascal.todolist.ui.fragments.home.HomeFragment
+import com.thepascal.todolist.ui.fragments.slideshow.SlideshowFragment
 
 class MainActivity : AppCompatActivity(),
     NavigationView.OnNavigationItemSelectedListener {
@@ -59,7 +61,9 @@ class MainActivity : AppCompatActivity(),
         navView.setupWithNavController(navController)*/
         val toggle = ActionBarDrawerToggle(
             this, drawerLayout,
-            toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close
+            toolbar,
+            R.string.navigation_drawer_open,
+            R.string.navigation_drawer_close
         )
         drawerLayout.addDrawerListener(toggle)
         toggle.syncState()

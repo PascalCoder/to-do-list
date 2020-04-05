@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/nav_home"
-        android:name="com.thepascal.todolist.ui.home.HomeFragment"
+        android:name="com.thepascal.todolist.ui.fragments.home.HomeFragment"
         android:label="@string/menu_home"
         tools:layout="@layout/fragment_home">
 
@@ -17,7 +17,7 @@
     </fragment>
     <!--<fragment
         android:id="@+id/nav_home_second"
-        android:name="com.thepascal.todolist.ui.home.HomeSecondFragment"
+        android:name="com.thepascal.todolist.ui.fragments.home.HomeSecondFragment"
         android:label="@string/home_second"
         tools:layout="@layout/fragment_home_second">
         <action
@@ -31,7 +31,7 @@
 
     <fragment
         android:id="@+id/nav_gallery"
-        android:name="com.thepascal.todolist.ui.gallery.GalleryFragment"
+        android:name="com.thepascal.todolist.ui.fragments.gallery.GalleryFragment"
         android:label="@string/menu_gallery"
         tools:layout="@layout/fragment_gallery">
 
@@ -44,7 +44,7 @@
 
     <fragment
         android:id="@+id/nav_slideshow"
-        android:name="com.thepascal.todolist.ui.slideshow.SlideshowFragment"
+        android:name="com.thepascal.todolist.ui.fragments.slideshow.SlideshowFragment"
         android:label="@string/menu_slideshow"
         tools:layout="@layout/fragment_slideshow" />
 </navigation>

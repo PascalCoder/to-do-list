@@ -1,8 +1,7 @@
-package com.thepascal.todolist
+package com.thepascal.todolist.ui.viewmodels
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.thepascal.todolist.POSITION_NOT_SET
 import com.thepascal.todolist.model.AddressModel
 import com.thepascal.todolist.model.ToDoModel
 

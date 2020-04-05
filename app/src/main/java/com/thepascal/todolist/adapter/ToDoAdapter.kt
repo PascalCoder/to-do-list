@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.checkbox.MaterialCheckBox
 import com.thepascal.todolist.R
 import com.thepascal.todolist.TASK_POSITION
-import com.thepascal.todolist.ToDoActivity
+import com.thepascal.todolist.ui.activities.ToDoActivity
 import com.thepascal.todolist.model.ToDoModel
 
 class ToDoAdapter(var context: Context, private val dataSet: List<ToDoModel>):

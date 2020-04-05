@@ -1,4 +1,4 @@
-package com.thepascal.todolist
+package com.thepascal.todolist.ui.activities
 
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
@@ -12,12 +12,16 @@ import android.widget.TimePicker
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.ViewModelProvider
+import com.thepascal.todolist.POSITION_NOT_SET
+import com.thepascal.todolist.R
+import com.thepascal.todolist.TASK_POSITION
+import com.thepascal.todolist.ui.viewmodels.ToDoViewModel
 import com.thepascal.todolist.model.AddressModel
 import com.thepascal.todolist.model.DataManager
 import com.thepascal.todolist.model.TaskState
 import com.thepascal.todolist.model.ToDoModel
-import com.thepascal.todolist.ui.DatePickerFragment
-import com.thepascal.todolist.ui.TimePickerFragment
+import com.thepascal.todolist.ui.fragments.DatePickerFragment
+import com.thepascal.todolist.ui.fragments.TimePickerFragment
 import kotlinx.android.synthetic.main.activity_to_do.*
 import kotlinx.android.synthetic.main.content_address.view.*
 import java.text.DateFormat
@@ -27,7 +31,8 @@ import java.util.*
 class ToDoActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener,
     TimePickerDialog.OnTimeSetListener {
 
-    private val toDoViewModel: ToDoViewModel by lazy { ViewModelProvider(this).get(ToDoViewModel::class.java) }
+    private val toDoViewModel: ToDoViewModel by lazy { ViewModelProvider(this).get(
+        ToDoViewModel::class.java) }
     private val calendar: Calendar = Calendar.getInstance()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -40,19 +45,24 @@ class ToDoActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener,
 
         if (intent.hasExtra(TASK_POSITION) && toDoViewModel.isViewModelNew) {
             toDoTaskSubmitButton.text = getString(R.string.update_task_button_text)
-            toDoViewModel.taskPosition = intent.getIntExtra(TASK_POSITION, POSITION_NOT_SET)
+            toDoViewModel.taskPosition = intent.getIntExtra(
+                TASK_POSITION,
+                POSITION_NOT_SET
+            )
             updateTaskAtPosition(toDoViewModel.taskPosition)
         } else {
             repopulateFieldsWithViewModel()
         }
 
         toDoTaskDueDateButton.setOnClickListener {
-            val datePicker: DialogFragment = DatePickerFragment()
+            val datePicker: DialogFragment =
+                DatePickerFragment()
             datePicker.show(supportFragmentManager, "Date Picker")
         }
 
         toDoTaskDueTimeButton.setOnClickListener {
-            val timePicker: DialogFragment = TimePickerFragment()
+            val timePicker: DialogFragment =
+                TimePickerFragment()
             timePicker.show(supportFragmentManager, "Time Picker")
         }
 

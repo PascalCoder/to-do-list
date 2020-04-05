@@ -1,4 +1,4 @@
-package com.thepascal.todolist.ui
+package com.thepascal.todolist.ui.fragments
 
 import android.app.DatePickerDialog
 import android.app.Dialog

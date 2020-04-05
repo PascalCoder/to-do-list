@@ -1,4 +1,4 @@
-package com.thepascal.todolist.ui.slideshow
+package com.thepascal.todolist.ui.fragments.slideshow
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
