@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingStart="20dp"
+    android:paddingEnd="20dp"
+    tools:context=".ToDoActivity">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+        <TextView
+            android:id="@+id/toDoTaskTypeLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:labelFor="@id/toDoTaskTypeSpinner"
+            android:text="@string/task_type_label"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/toDoTaskTypeSpinner"
+            app:layout_constraintBottom_toBottomOf="@id/toDoTaskTypeSpinner"/>
+
+        <Spinner
+            android:id="@+id/toDoTaskTypeSpinner"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_marginTop="50dp"
+            android:autofillHints="@null"
+            android:spinnerMode="dropdown"
+            android:textAlignment="center"
+            app:layout_constraintStart_toEndOf="@id/toDoTaskTypeLabel"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/toDoTaskTitleLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:labelFor="@id/toDoTaskTitle"
+            android:text="@string/task_title_label"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/toDoTaskTitle"
+            app:layout_constraintBottom_toBottomOf="@id/toDoTaskTitle"/>
+
+        <EditText
+            android:id="@+id/toDoTaskTitle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:autofillHints="@null"
+            android:inputType="text"
+            app:layout_constraintStart_toEndOf="@id/toDoTaskTitleLabel"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/toDoTaskTypeSpinner" />
+
+        <TextView
+            android:id="@+id/toDoTaskDescriptionLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:labelFor="@id/toDoTaskDescription"
+            android:text="@string/task_description_label"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/toDoTaskDescription"
+            app:layout_constraintBottom_toBottomOf="@id/toDoTaskDescription"/>
+
+        <EditText
+            android:id="@+id/toDoTaskDescription"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:autofillHints="@null"
+            android:inputType="textMultiLine"
+            app:layout_constraintStart_toEndOf="@id/toDoTaskDescriptionLabel"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/toDoTaskTitle" />
+
+        <TextView
+            android:id="@+id/toDoTaskDueDateLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:labelFor="@id/toDoTaskDueDateText"
+            android:text="@string/task_due_date_label"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/toDoTaskDescription" />
+
+        <TextView
+            android:id="@+id/toDoTaskDueDateText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/task_due_date_instructions"
+            android:textSize="15sp"
+            app:layout_constraintStart_toEndOf="@id/toDoTaskDueDateLabel"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/toDoTaskDueDateLabel"
+            app:layout_constraintBottom_toBottomOf="@id/toDoTaskDueDateLabel" />
+
+        <Button
+            android:id="@+id/toDoTaskDueDateButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginEnd="10dp"
+            android:background="@color/colorAccent"
+            android:text="@string/select_due_date_text"
+            android:textColor="@android:color/white"
+            android:textAllCaps="false"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/toDoTaskDueDateText"/>
+
+        <TextView
+            android:id="@+id/toDoTaskDueTimeLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="25dp"
+            android:labelFor="@id/toDoTaskDueTimeText"
+            android:text="@string/due_time_label"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/toDoTaskDueDateButton" />
+
+        <TextView
+            android:id="@+id/toDoTaskDueTimeText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/task_due_time_instructions"
+            android:textAlignment="textStart"
+            android:textSize="15sp"
+            app:layout_constraintStart_toEndOf="@id/toDoTaskDueTimeLabel"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/toDoTaskDueTimeLabel"
+            app:layout_constraintBottom_toBottomOf="@id/toDoTaskDueTimeLabel" />
+
+        <Button
+            android:id="@+id/toDoTaskDueTimeButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginEnd="10dp"
+            android:background="@color/colorAccent"
+            android:text="@string/select_due_time_btn_text"
+            android:textColor="@android:color/white"
+            android:textAllCaps="false"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/toDoTaskDueTimeText" />
+
+        <Button
+            android:id="@+id/toDoTaskAddressButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="30dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="30dp"
+            android:background="@color/colorAccent"
+            android:text="@string/add_address_btn_text"
+            android:textColor="@android:color/white"
+            android:textAllCaps="false"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/toDoTaskDueTimeButton" />
+
+        <include
+            android:id="@+id/toDoTaskAddressContent"
+            layout="@layout/content_address"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:visibility="gone"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/toDoTaskAddressButton"
+            tools:visibility="visible"/>
+
+        <Button
+            android:id="@+id/toDoTaskSubmitButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="100dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginBottom="25dp"
+            android:text="@string/add_task_btn_text"
+            android:textAllCaps="false"
+            android:background="@color/colorAccent"
+            android:textColor="@android:color/white"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/toDoTaskAddressContent"
+            app:layout_constraintBottom_toBottomOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</ScrollView>
