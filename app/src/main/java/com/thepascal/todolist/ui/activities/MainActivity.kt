@@ -21,6 +21,7 @@ import com.thepascal.todolist.R
 import com.thepascal.todolist.ui.fragments.gallery.GalleryFragment
 import com.thepascal.todolist.ui.fragments.home.HomeFragment
 import com.thepascal.todolist.ui.fragments.slideshow.SlideshowFragment
+import com.thepascal.todolist.ui.fragments.tasks.TasksFragment
 
 class MainActivity : AppCompatActivity(),
     NavigationView.OnNavigationItemSelectedListener {
@@ -98,6 +99,7 @@ class MainActivity : AppCompatActivity(),
             is HomeFragment -> menu.findItem(R.id.nav_home).isChecked = true
             is GalleryFragment -> menu.findItem(R.id.nav_gallery).isChecked = true
             is SlideshowFragment -> menu.findItem(R.id.nav_slideshow).isChecked = true
+            is TasksFragment -> menu.findItem(R.id.nav_tasks).isChecked = true
         }
     }
 
@@ -111,6 +113,9 @@ class MainActivity : AppCompatActivity(),
             }
             R.id.nav_slideshow -> {
                 displayFragment(SlideshowFragment())
+            }
+            R.id.nav_tasks -> {
+                displayFragment(TasksFragment())
             }
         }
     }

@@ -11,11 +11,14 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.checkbox.MaterialCheckBox
 import com.thepascal.todolist.R
 import com.thepascal.todolist.TASK_POSITION
-import com.thepascal.todolist.ui.activities.ToDoActivity
+import com.thepascal.todolist.model.TaskState
 import com.thepascal.todolist.model.ToDoModel
+import com.thepascal.todolist.ui.activities.ToDoActivity
 
-class ToDoAdapter(var context: Context, private val dataSet: List<ToDoModel>):
+class ToDoAdapter(var context: Context, private val dataSet: List<ToDoModel>) :
     RecyclerView.Adapter<ToDoAdapter.ToDoViewHolder>() {
+
+    private var onTaskClickedListener: OnTaskClickedListener? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ToDoViewHolder {
         val view = LayoutInflater.from(context)
@@ -30,26 +33,40 @@ class ToDoAdapter(var context: Context, private val dataSet: List<ToDoModel>):
         holder.taskType.text = toDoTask.type
         holder.taskTitle.text = toDoTask.title
         holder.itemPosition = position
-
+        if (toDoTask.taskState == TaskState.COMPLETED) {
+            holder.taskCheckBox.isChecked = true
+        }
     }
 
-    inner class ToDoViewHolder(itemView: View): RecyclerView.ViewHolder(itemView){
+    fun setOnTaskClickedListener(listener: OnTaskClickedListener) {
+        onTaskClickedListener = listener
+    }
+
+    inner class ToDoViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val taskType: TextView = itemView.findViewById(R.id.itemTaskType)
         val taskTitle: TextView = itemView.findViewById(R.id.itemTaskTitle)
         val taskCheckBox: MaterialCheckBox = itemView.findViewById(R.id.itemTaskCompleted)
         private val taskCardView: CardView = itemView.findViewById(R.id.itemTaskCardView)
 
         var itemPosition = 0
+
         init {
             taskCardView.setOnClickListener {
                 val intent = Intent(context, ToDoActivity::class.java)
                 intent.putExtra(TASK_POSITION, itemPosition)
                 context.startActivity(intent)
             }
-            
-            taskCheckBox.setOnClickListener {
 
+            taskCheckBox.setOnClickListener {
+                onTaskClickedListener?.onCheckBoxClicked(itemPosition)
+                taskCheckBox.isChecked = false
+                notifyDataSetChanged()
             }
         }
+    }
+
+    interface OnTaskClickedListener {
+        fun onCheckBoxClicked(itemPosition: Int)
+        fun onDeleteImageClicked(itemPosition: Int)
     }
 }

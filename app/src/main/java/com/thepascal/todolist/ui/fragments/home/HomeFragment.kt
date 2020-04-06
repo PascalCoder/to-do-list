@@ -15,11 +15,15 @@ import com.thepascal.todolist.R
 import com.thepascal.todolist.adapter.ToDoAdapter
 import com.thepascal.todolist.model.DataManager
 
-class HomeFragment : Fragment() {
+class HomeFragment : Fragment(), ToDoAdapter.OnTaskClickedListener {
 
     private val homeViewModel: HomeViewModel by lazy { ViewModelProvider(this).get(HomeViewModel::class.java) }
     private val homeLayoutManager by lazy { LinearLayoutManager(context) }
-    private val homeAdapter by lazy { ToDoAdapter(context!!, DataManager.activeTaskList) }
+    private val homeAdapter by lazy {
+        val adapter = ToDoAdapter(context!!, DataManager.activeTaskList)
+        adapter.setOnTaskClickedListener(this)
+        adapter
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -42,5 +46,18 @@ class HomeFragment : Fragment() {
     override fun onResume() {
         super.onResume()
         Log.d("HomeFragment", "onResume was called!")
+    }
+
+    override fun onCheckBoxClicked(itemPosition: Int) {
+        Log.d("HomeFragment", "Clicked!")
+        //val handler = Handler(Looper.getMainLooper())
+        homeViewModel.handleTaskCompleted(itemPosition)
+        /*handler.postDelayed({
+            homeAdapter.notifyDataSetChanged()
+        }, 0)*/
+    }
+
+    override fun onDeleteImageClicked(itemPosition: Int) {
+        TODO("Not yet implemented")
     }
 }
