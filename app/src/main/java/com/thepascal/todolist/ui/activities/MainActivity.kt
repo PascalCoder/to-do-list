@@ -18,9 +18,9 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.navigation.NavigationView
 import com.thepascal.todolist.ui.viewmodels.MainViewModel
 import com.thepascal.todolist.R
-import com.thepascal.todolist.ui.fragments.gallery.GalleryFragment
+import com.thepascal.todolist.ui.fragments.gallery.CompletedFragment
 import com.thepascal.todolist.ui.fragments.home.HomeFragment
-import com.thepascal.todolist.ui.fragments.slideshow.SlideshowFragment
+import com.thepascal.todolist.ui.fragments.slideshow.DeletedFragment
 import com.thepascal.todolist.ui.fragments.tasks.TasksFragment
 
 class MainActivity : AppCompatActivity(),
@@ -97,8 +97,8 @@ class MainActivity : AppCompatActivity(),
         //val id:Int = R.id.nav_home
         when (fragment) {
             is HomeFragment -> menu.findItem(R.id.nav_home).isChecked = true
-            is GalleryFragment -> menu.findItem(R.id.nav_gallery).isChecked = true
-            is SlideshowFragment -> menu.findItem(R.id.nav_slideshow).isChecked = true
+            is CompletedFragment -> menu.findItem(R.id.nav_gallery).isChecked = true
+            is DeletedFragment -> menu.findItem(R.id.nav_slideshow).isChecked = true
             is TasksFragment -> menu.findItem(R.id.nav_tasks).isChecked = true
         }
     }
@@ -109,10 +109,10 @@ class MainActivity : AppCompatActivity(),
                 displayFragment(HomeFragment())
             }
             R.id.nav_gallery -> {
-                displayFragment(GalleryFragment())
+                displayFragment(CompletedFragment())
             }
             R.id.nav_slideshow -> {
-                displayFragment(SlideshowFragment())
+                displayFragment(DeletedFragment())
             }
             R.id.nav_tasks -> {
                 displayFragment(TasksFragment())

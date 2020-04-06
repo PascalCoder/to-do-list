@@ -31,7 +31,7 @@
 
     <fragment
         android:id="@+id/nav_gallery"
-        android:name="com.thepascal.todolist.ui.fragments.gallery.GalleryFragment"
+        android:name="com.thepascal.todolist.ui.fragments.gallery.CompletedFragment"
         android:label="@string/menu_gallery"
         tools:layout="@layout/fragment_gallery">
 
@@ -44,7 +44,7 @@
 
     <fragment
         android:id="@+id/nav_slideshow"
-        android:name="com.thepascal.todolist.ui.fragments.slideshow.SlideshowFragment"
+        android:name="com.thepascal.todolist.ui.fragments.slideshow.DeletedFragment"
         android:label="@string/menu_slideshow"
         tools:layout="@layout/fragment_slideshow" />
 </navigation>

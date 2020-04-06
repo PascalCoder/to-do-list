@@ -7,9 +7,9 @@
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Settings</string>
 
-    <string name="menu_home">Home</string>
-    <string name="menu_gallery">Gallery</string>
-    <string name="menu_slideshow">Slideshow</string>
+    <string name="menu_home">Active Tasks</string>
+    <string name="menu_gallery">Completed Tasks</string>
+    <string name="menu_slideshow">Deleted Tasks</string>
 
     <string name="home_second">Home Second</string>
     <string name="delete_task_text">Delete Task</string>
