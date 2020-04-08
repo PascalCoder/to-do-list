@@ -2,11 +2,14 @@ package com.thepascal.todolist.adapter
 
 import android.content.Context
 import android.content.Intent
+import android.content.res.ColorStateList
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.cardview.widget.CardView
+import androidx.core.widget.CompoundButtonCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.checkbox.MaterialCheckBox
 import com.thepascal.todolist.R
@@ -36,6 +39,12 @@ class ToDoAdapter(var context: Context, private val dataSet: List<ToDoModel>) :
         if (toDoTask.taskState == TaskState.COMPLETED) {
             holder.taskCheckBox.isChecked = true
         }
+        if (toDoTask.taskState == TaskState.DELETED) {
+            holder.taskCheckBox.isChecked = true
+            holder.taskCheckBox.buttonTintList = context.resources.getColorStateList(android.R.color.holo_red_light)
+            //holder.taskDeleteImage.setBackgroundColor(context.resources.getColor(android.R.color.holo_red_light))
+            holder.taskDeleteImage.imageTintList = context.resources.getColorStateList(android.R.color.holo_red_light)
+        }
     }
 
     fun setOnTaskClickedListener(listener: OnTaskClickedListener) {
@@ -46,6 +55,7 @@ class ToDoAdapter(var context: Context, private val dataSet: List<ToDoModel>) :
         val taskType: TextView = itemView.findViewById(R.id.itemTaskType)
         val taskTitle: TextView = itemView.findViewById(R.id.itemTaskTitle)
         val taskCheckBox: MaterialCheckBox = itemView.findViewById(R.id.itemTaskCompleted)
+        val taskDeleteImage: ImageView = itemView.findViewById(R.id.itemTaskDeleteImage)
         private val taskCardView: CardView = itemView.findViewById(R.id.itemTaskCardView)
 
         var itemPosition = 0
@@ -60,6 +70,11 @@ class ToDoAdapter(var context: Context, private val dataSet: List<ToDoModel>) :
             taskCheckBox.setOnClickListener {
                 onTaskClickedListener?.onCheckBoxClicked(itemPosition)
                 taskCheckBox.isChecked = false
+                notifyDataSetChanged()
+            }
+
+            taskDeleteImage.setOnClickListener {
+                onTaskClickedListener?.onDeleteImageClicked(itemPosition)
                 notifyDataSetChanged()
             }
         }

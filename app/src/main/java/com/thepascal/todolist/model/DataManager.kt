@@ -34,6 +34,6 @@ object DataManager {
     )
     val overdueTaskList = mutableListOf<ToDoModel>()
 
-    var allTaskList = activeTaskList + completedTaskList + overdueTaskList + deletedTaskList
+    var allTaskList:MutableList<ToDoModel> = (activeTaskList + completedTaskList + overdueTaskList + deletedTaskList).toMutableList()
 
 }

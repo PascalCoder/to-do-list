@@ -58,6 +58,6 @@ class HomeFragment : Fragment(), ToDoAdapter.OnTaskClickedListener {
     }
 
     override fun onDeleteImageClicked(itemPosition: Int) {
-        TODO("Not yet implemented")
+        homeViewModel.handleTaskDeleted(itemPosition)
     }
 }

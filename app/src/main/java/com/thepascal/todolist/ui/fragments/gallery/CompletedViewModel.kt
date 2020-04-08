@@ -19,4 +19,8 @@ class CompletedViewModel : ViewModel() {
         DataManager.activeTaskList.add(toDoModel)
         DataManager.completedTaskList.removeAt(itemPosition)
     }
+
+    fun handleTaskDeleted(itemPosition: Int) {
+
+    }
 }

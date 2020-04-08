@@ -19,4 +19,11 @@ class HomeViewModel : ViewModel() {
         DataManager.completedTaskList.add(toDoModel)
         DataManager.activeTaskList.removeAt(itemPosition)
     }
+
+    fun handleTaskDeleted(itemPosition: Int) {
+        val toDoModel = DataManager.activeTaskList[itemPosition]
+        DataManager.activeTaskList[itemPosition].taskState = TaskState.DELETED
+        DataManager.deletedTaskList.add(toDoModel)
+        DataManager.activeTaskList.removeAt(itemPosition)
+    }
 }
