@@ -8,8 +8,8 @@ data class ToDoModel(
     val title: String?,
     val description: String?,
     val datePosted: String?,
-    val dueDate: String?,
-    val dueTime: String?,
+    var dueDate: String?,
+    var dueTime: String?,
     val address: AddressModel?,
     var taskState: TaskState? = TaskState.ACTIVE
 ) : Parcelable {

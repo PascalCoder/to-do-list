@@ -3,6 +3,7 @@ package com.thepascal.todolist.ui.viewmodels
 import androidx.lifecycle.ViewModel
 import com.thepascal.todolist.POSITION_NOT_SET
 import com.thepascal.todolist.model.AddressModel
+import com.thepascal.todolist.model.DataManager
 import com.thepascal.todolist.model.ToDoModel
 
 class ToDoViewModel: ViewModel() {
@@ -19,12 +20,27 @@ class ToDoViewModel: ViewModel() {
 
     }*/
     var isViewModelNew = true
-    var dueDate: String? = null
-    var dueTime: String? = null
-    var address: AddressModel? = null
 
     var isAddressContentDisplayed: Boolean = false
     var taskPosition = POSITION_NOT_SET
 
     var toDoTask: ToDoModel? = null
+
+    fun createOrUpdateTask(taskPosition: Int) {
+        //Add the task to the database
+        //For now let's add it to the DataManager list of tasks
+        when (taskPosition) {
+            POSITION_NOT_SET -> {
+                toDoTask?.let {
+                    DataManager.activeTaskList.add(it)
+                }
+            }
+            else -> {
+                //we just want to update
+                toDoTask?.let {
+                    DataManager.activeTaskList[taskPosition] = it
+                }
+            }
+        }
+    }
 }

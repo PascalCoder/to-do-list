@@ -27,12 +27,14 @@ import kotlinx.android.synthetic.main.content_address.view.*
 import java.text.DateFormat
 import java.util.*
 
-//@Suppress("DEPRECATION")
 class ToDoActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener,
     TimePickerDialog.OnTimeSetListener {
 
-    private val toDoViewModel: ToDoViewModel by lazy { ViewModelProvider(this).get(
-        ToDoViewModel::class.java) }
+    private val toDoViewModel: ToDoViewModel by lazy {
+        ViewModelProvider(this).get(
+            ToDoViewModel::class.java
+        )
+    }
     private val calendar: Calendar = Calendar.getInstance()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -43,15 +45,21 @@ class ToDoActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener,
 
         populateSpinner()
 
-        if (intent.hasExtra(TASK_POSITION) && toDoViewModel.isViewModelNew) {
+        if (intent.hasExtra(TASK_POSITION)) {
             toDoTaskSubmitButton.text = getString(R.string.update_task_button_text)
             toDoViewModel.taskPosition = intent.getIntExtra(
                 TASK_POSITION,
                 POSITION_NOT_SET
             )
-            updateTaskAtPosition(toDoViewModel.taskPosition)
+            if (toDoViewModel.isViewModelNew) {
+                updateTaskAtPosition(toDoViewModel.taskPosition)
+            } else {
+                repopulateFieldsWithViewModel()
+            }
         } else {
-            repopulateFieldsWithViewModel()
+            if (!toDoViewModel.isViewModelNew) {
+                repopulateFieldsWithViewModel()
+            }
         }
 
         toDoTaskDueDateButton.setOnClickListener {
@@ -72,18 +80,7 @@ class ToDoActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener,
 
         toDoTaskSubmitButton.setOnClickListener {
             setUpToDoViewModelWithUserInputs()
-            //Add the task to the database
-            //For now let's add it to the DataManager list of tasks
-            if (toDoViewModel.taskPosition == POSITION_NOT_SET) {
-                toDoViewModel.toDoTask?.let {
-                    DataManager.activeTaskList.add(it)
-                }
-            } else {
-                //we just want to update
-                toDoViewModel.toDoTask?.let {
-                    DataManager.activeTaskList[toDoViewModel.taskPosition] = it
-                }
-            }
+            toDoViewModel.createOrUpdateTask(toDoViewModel.taskPosition)
             Log.d("Created task", "Task: ${toDoViewModel.toDoTask}")
 
             //Navigate to the Home page
@@ -92,16 +89,23 @@ class ToDoActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener,
         }
     }
 
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        setUpToDoViewModelWithUserInputs()
+    }
+
     private fun repopulateFieldsWithViewModel() {
-        toDoTaskDueDateText.text = toDoViewModel.dueDate
-        toDoTaskDueTimeText.text = toDoViewModel.dueTime
-        toDoViewModel.address?.let {
+        toDoTaskDueDateText.text = toDoViewModel.toDoTask?.dueDate
+        toDoTaskDueTimeText.text = toDoViewModel.toDoTask?.dueTime
+        toDoViewModel.toDoTask?.address?.let {
+            showAddressField()
             fillInAddressFields(it)
         }
     }
 
     private fun toggleAddressButton() {
-        if (!toDoViewModel.isAddressContentDisplayed) {
+        if (!toDoViewModel.isAddressContentDisplayed ||
+            toDoTaskAddressButton.text == getString(R.string.add_address_btn_text)) {
             showAddressField()
         } else {
             hideAddressField()
@@ -109,22 +113,19 @@ class ToDoActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener,
     }
 
     private fun updateTaskAtPosition(position: Int) {
+        toDoViewModel.toDoTask = DataManager.activeTaskList[position]
 
-        val toDoModel: ToDoModel = DataManager.activeTaskList[position]
-        toDoViewModel.toDoTask = toDoModel //
-        toDoViewModel.dueDate = toDoModel.dueDate
-        toDoViewModel.dueTime = toDoModel.dueTime
-        toDoViewModel.address = toDoModel.address
-        val taskTypePosition: Int = DataManager.taskTypeList.indexOf<Any?>(toDoModel.type)
+        val taskTypePosition: Int =
+            DataManager.taskTypeList.indexOf<Any?>(toDoViewModel.toDoTask?.type)
         toDoTaskTypeSpinner.setSelection(taskTypePosition)
-        toDoTaskTitle.setText(toDoModel.title)
-        toDoTaskDescription.setText(toDoModel.description)
-        toDoTaskDueDateText.text = toDoModel.dueDate
-        toDoTaskDueTimeText.text = toDoModel.dueTime
+        toDoTaskTitle.setText(toDoViewModel.toDoTask?.title)
+        toDoTaskDescription.setText(toDoViewModel.toDoTask?.description)
+        toDoTaskDueDateText.text = toDoViewModel.toDoTask?.dueDate
+        toDoTaskDueTimeText.text = toDoViewModel.toDoTask?.dueTime
 
-        if (toDoModel.address != null) {
+        toDoViewModel.toDoTask?.address?.let {
             showAddressField()
-            fillInAddressFields(toDoModel.address)
+            fillInAddressFields(it)
         }
     }
 
@@ -173,13 +174,9 @@ class ToDoActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener,
 
         //Create the task if validation passes
         toDoViewModel.toDoTask = ToDoModel(
-            type = type,
-            title = title,
-            description = description,
-            datePosted = datePosted,
-            dueDate = dueDate, //toDoViewModel.dueDate
-            dueTime = dueTime, //toDoViewModel.dueTime
-            address = address,
+            type = type, title = title, description = description,
+            datePosted = datePosted, dueDate = dueDate,
+            dueTime = dueTime, address = address,
             taskState = TaskState.ACTIVE
         )
     }
@@ -199,7 +196,7 @@ class ToDoActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener,
             .format(calendar.time)
 
         toDoTaskDueDateText.text = stringDate
-        toDoViewModel.dueDate = stringDate
+        toDoViewModel.toDoTask?.dueDate = stringDate
     }
 
     override fun onTimeSet(timePicker: TimePicker?, hour: Int, minute: Int) {
@@ -212,6 +209,6 @@ class ToDoActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener,
         toDoTaskDueTimeText.text = stringTime
         //toDoTaskDueTimeText.textSize = 12f
 
-        toDoViewModel.dueTime = stringTime
+        toDoViewModel.toDoTask?.dueTime = stringTime
     }
 }
