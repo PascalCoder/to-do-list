@@ -2,7 +2,6 @@ package com.thepascal.todolist.ui.viewmodels
 
 import androidx.lifecycle.ViewModel
 import com.thepascal.todolist.POSITION_NOT_SET
-import com.thepascal.todolist.model.AddressModel
 import com.thepascal.todolist.model.DataManager
 import com.thepascal.todolist.model.ToDoModel
 
