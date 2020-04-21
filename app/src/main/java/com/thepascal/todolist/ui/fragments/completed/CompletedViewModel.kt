@@ -1,4 +1,4 @@
-package com.thepascal.todolist.ui.fragments.gallery
+package com.thepascal.todolist.ui.fragments.completed
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

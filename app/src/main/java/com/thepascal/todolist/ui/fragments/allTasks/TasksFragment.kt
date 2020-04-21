@@ -1,4 +1,4 @@
-package com.thepascal.todolist.ui.fragments.tasks
+package com.thepascal.todolist.ui.fragments.allTasks
 
 import android.os.Bundle
 import android.view.LayoutInflater

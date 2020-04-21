@@ -1,4 +1,4 @@
-package com.thepascal.todolist.ui.fragments.slideshow
+package com.thepascal.todolist.ui.fragments.deleted
 
 import android.os.Bundle
 import android.util.Log

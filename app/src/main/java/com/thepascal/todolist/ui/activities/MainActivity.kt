@@ -18,10 +18,10 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.navigation.NavigationView
 import com.thepascal.todolist.ui.viewmodels.MainViewModel
 import com.thepascal.todolist.R
-import com.thepascal.todolist.ui.fragments.gallery.CompletedFragment
-import com.thepascal.todolist.ui.fragments.home.HomeFragment
-import com.thepascal.todolist.ui.fragments.slideshow.DeletedFragment
-import com.thepascal.todolist.ui.fragments.tasks.TasksFragment
+import com.thepascal.todolist.ui.fragments.completed.CompletedFragment
+import com.thepascal.todolist.ui.fragments.active.HomeFragment
+import com.thepascal.todolist.ui.fragments.deleted.DeletedFragment
+import com.thepascal.todolist.ui.fragments.allTasks.TasksFragment
 
 class MainActivity : AppCompatActivity(),
     NavigationView.OnNavigationItemSelectedListener {
