@@ -33,4 +33,6 @@
     <string name="add_address_btn_text">Add an Address</string>
     <string name="hide_address_btn_text">Hide Address Fields</string>
     <string name="menu_tasks">All Tasks</string>
+    <string name="checked_text">Checked</string>
+    <string name="to_do_color_label">To-do Color: </string>
 </resources>

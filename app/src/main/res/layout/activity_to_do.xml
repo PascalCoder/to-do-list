@@ -182,6 +182,26 @@
             app:layout_constraintTop_toBottomOf="@id/toDoTaskAddressButton"
             tools:visibility="visible"/>
 
+        <TextView
+            android:id="@+id/toDoTaskColorSelectorLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="40dp"
+            android:text="@string/to_do_color_label"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/toDoTaskAddressContent" />
+
+        <com.thepascal.todolist.ui.utils.ColorSelector
+            android:id="@+id/toDoTaskColorSelector"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            app:layout_constraintStart_toEndOf="@id/toDoTaskColorSelectorLabel"
+            app:layout_constraintTop_toTopOf="@id/toDoTaskColorSelectorLabel"
+            app:layout_constraintBottom_toBottomOf="@id/toDoTaskColorSelectorLabel"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
         <Button
             android:id="@+id/toDoTaskSubmitButton"
             android:layout_width="0dp"
@@ -196,7 +216,7 @@
             android:textColor="@android:color/white"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/toDoTaskAddressContent"
+            app:layout_constraintTop_toBottomOf="@id/toDoTaskColorSelector"
             app:layout_constraintBottom_toBottomOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
