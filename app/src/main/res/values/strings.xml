@@ -17,12 +17,12 @@
     <string name="task_title_label">Task title: </string>
     <string name="task_description_label">Task description: </string>
     <string name="task_due_date_label">Due Date: </string>
-    <string name="task_due_date_instructions">Click button below to select date</string>
-    <string name="select_due_date_text">Select Due Date</string>
+    <string name="task_due_date_instructions">Add Date</string> <!-- Click button below to select date. -->
+    <string name="select_due_date_text">Select Date</string>
     <string name="add_task_btn_text">Add Task</string>
     <string name="due_time_label">Due Time:</string>
-    <string name="task_due_time_instructions">Click the button below to select due time.</string>
-    <string name="select_due_time_btn_text">Select Due Time</string>
+    <string name="task_due_time_instructions">Add Time</string> <!-- Click the button below to select due time. -->
+    <string name="select_due_time_btn_text">Select Time</string>
     <string name="update_task_button_text">Update Task</string>
     <string name="address_line_1_hint">Address Line 1</string>
     <string name="address_line_2_hint">Address Line 2</string>
