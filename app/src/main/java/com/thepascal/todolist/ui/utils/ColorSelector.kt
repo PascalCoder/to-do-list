@@ -1,6 +1,7 @@
 package com.thepascal.todolist.ui.utils
 
 import android.content.Context
+import android.content.res.TypedArray
 import android.graphics.Color
 import android.util.AttributeSet
 import android.view.LayoutInflater
@@ -49,12 +50,21 @@ class ColorSelector @JvmOverloads constructor(
             return field
         }*/
 
-    private var colorSelectorListener: ColorSelectorListener? = null
-    fun setListener(listener: ColorSelectorListener) {
+    private var colorSelectorListener: ((Int) -> Unit)? = null
+    fun setListener(listener: (Int) -> Unit) {
         colorSelectorListener = listener
     }
 
     init {
+       /* val typedArray: TypedArray = context.obtainStyledAttributes(
+            attrs, R.styleable.ColorSelector
+        )
+        listOfColors = typedArray.getTextArray(R.styleable.ColorSelector_colors)
+            .map {
+                Color.parseColor(it.toString())
+            }
+        typedArray.recycle()*/
+
         orientation = HORIZONTAL
         val inflater: LayoutInflater =
             _context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
@@ -73,12 +83,11 @@ class ColorSelector @JvmOverloads constructor(
         colorCheckBox.setOnCheckedChangeListener { _, _ ->
             saveSelectedColor()
         }
-        saveSelectedColor()
     }
 
-    interface ColorSelectorListener {
+    /*interface ColorSelectorListener {
         fun onColorSelected(color: Int)
-    }
+    }*/
 
     private fun selectPreviousColor() {
         if (selectedColorIndex == 0) {
@@ -107,6 +116,8 @@ class ColorSelector @JvmOverloads constructor(
         else
             Color.TRANSPARENT
 
-        colorSelectorListener?.onColorSelected(color)
+        colorSelectorListener?.let { function ->
+            function(color)
+        }
     }
 }

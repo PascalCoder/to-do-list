@@ -35,4 +35,18 @@
     <string name="menu_tasks">All Tasks</string>
     <string name="checked_text">Checked</string>
     <string name="to_do_color_label">To-do Color: </string>
+
+    <string-array name="task_color_array">
+        <item>#FF0000</item>
+        <item>#FFA500</item>
+        <item>#FFB74D</item>
+        <item>#FFF176</item>
+        <item>#FFFF00</item>
+        <item>#0000FF</item>
+        <item>#64B5F6</item>
+        <item>#81C784</item>
+        <item>#E57373</item>
+        <item>#BA68C8</item>
+        <item>#90A4AE</item>
+    </string-array>
 </resources>

@@ -15,14 +15,13 @@ import androidx.lifecycle.ViewModelProvider
 import com.thepascal.todolist.POSITION_NOT_SET
 import com.thepascal.todolist.R
 import com.thepascal.todolist.TASK_POSITION
-import com.thepascal.todolist.ui.viewmodels.ToDoViewModel
 import com.thepascal.todolist.model.AddressModel
 import com.thepascal.todolist.model.DataManager
 import com.thepascal.todolist.model.TaskState
 import com.thepascal.todolist.model.ToDoModel
 import com.thepascal.todolist.ui.fragments.DatePickerFragment
 import com.thepascal.todolist.ui.fragments.TimePickerFragment
-import com.thepascal.todolist.ui.utils.ColorSelector
+import com.thepascal.todolist.ui.viewmodels.ToDoViewModel
 import kotlinx.android.synthetic.main.activity_to_do.*
 import kotlinx.android.synthetic.main.content_address.view.*
 import java.text.DateFormat
@@ -65,11 +64,10 @@ class ToDoActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener,
             }
         }
 
-        toDoTaskColorSelector.setListener(object: ColorSelector.ColorSelectorListener {
-            override fun onColorSelected(color: Int) {
-                toDoViewModel.toDoTaskColor = color
-            }
-        })
+        toDoTaskColorSelector.setListener {
+            toDoViewModel.toDoTask?.color = it
+            toDoViewModel.toDoTaskColor = it
+        }
 
         toDoTaskDueDateButton.setOnClickListener {
             val datePicker: DialogFragment =
