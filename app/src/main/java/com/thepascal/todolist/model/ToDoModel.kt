@@ -1,5 +1,6 @@
 package com.thepascal.todolist.model
 
+import android.graphics.Color
 import android.os.Parcel
 import android.os.Parcelable
 
@@ -11,7 +12,8 @@ data class ToDoModel(
     var dueDate: String?,
     var dueTime: String?,
     val address: AddressModel?,
-    var taskState: TaskState? = TaskState.ACTIVE
+    var taskState: TaskState? = TaskState.ACTIVE,
+    var color: Int? = Color.TRANSPARENT
 ) : Parcelable {
     constructor(parcel: Parcel) : this(
         parcel.readString(),
@@ -20,8 +22,9 @@ data class ToDoModel(
         parcel.readString(),
         parcel.readString(),
         parcel.readString(),
-        parcel.readParcelable(AddressModel::class.java.classLoader)
-        //parcel.readInt() as TaskState
+        parcel.readParcelable(AddressModel::class.java.classLoader),
+        parcel.readInt() as TaskState,
+        parcel.readInt()
     )
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
@@ -32,6 +35,7 @@ data class ToDoModel(
         parcel.writeString(dueDate)
         parcel.writeString(dueTime)
         parcel.writeParcelable(address, flags)
+        parcel.writeInt(color!!)
     }
 
     override fun describeContents(): Int {

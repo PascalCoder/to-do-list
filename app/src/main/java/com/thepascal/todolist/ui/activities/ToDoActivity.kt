@@ -22,6 +22,7 @@ import com.thepascal.todolist.model.TaskState
 import com.thepascal.todolist.model.ToDoModel
 import com.thepascal.todolist.ui.fragments.DatePickerFragment
 import com.thepascal.todolist.ui.fragments.TimePickerFragment
+import com.thepascal.todolist.ui.utils.ColorSelector
 import kotlinx.android.synthetic.main.activity_to_do.*
 import kotlinx.android.synthetic.main.content_address.view.*
 import java.text.DateFormat
@@ -59,8 +60,16 @@ class ToDoActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener,
         } else {
             if (!toDoViewModel.isViewModelNew) {
                 repopulateFieldsWithViewModel()
+                /*toDoTaskColorSelector.selectedColorValue = toDoViewModel.toDoTask?.color
+                toDoTaskColor = toDoViewModel.toDoTask?.color*/
             }
         }
+
+        toDoTaskColorSelector.setListener(object: ColorSelector.ColorSelectorListener {
+            override fun onColorSelected(color: Int) {
+                toDoViewModel.toDoTaskColor = color
+            }
+        })
 
         toDoTaskDueDateButton.setOnClickListener {
             val datePicker: DialogFragment =
@@ -101,6 +110,7 @@ class ToDoActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener,
             showAddressField()
             fillInAddressFields(it)
         }
+        toDoTaskColorSelector.selectedColorValue = toDoViewModel.toDoTask?.color
     }
 
     private fun toggleAddressButton() {
@@ -127,6 +137,8 @@ class ToDoActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener,
             showAddressField()
             fillInAddressFields(it)
         }
+
+        toDoTaskColorSelector.selectedColorValue = toDoViewModel.toDoTask?.color
     }
 
     private fun showAddressField() {
@@ -157,6 +169,7 @@ class ToDoActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener,
         val datePosted = Calendar.getInstance().time.toString()
         val dueDate = toDoTaskDueDateText.text.toString()
         val dueTime = toDoTaskDueTimeText.text.toString()
+        val color = toDoTaskColorSelector.selectedColorValue
 
         val address: AddressModel? = if (toDoViewModel.isAddressContentDisplayed) {
             AddressModel(
@@ -177,8 +190,13 @@ class ToDoActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener,
             type = type, title = title, description = description,
             datePosted = datePosted, dueDate = dueDate,
             dueTime = dueTime, address = address,
-            taskState = TaskState.ACTIVE
+            taskState = TaskState.ACTIVE,
+            color = toDoViewModel.toDoTaskColor
         )
+
+        toDoTaskColorSelector.selectedColorValue = toDoViewModel.toDoTask?.color
+        /*toDoViewModel.toDoTask?.color = color
+        toDoViewModel.toDoTaskColor = color*/
     }
 
     private fun populateSpinner() {

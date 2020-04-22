@@ -2,14 +2,12 @@ package com.thepascal.todolist.adapter
 
 import android.content.Context
 import android.content.Intent
-import android.content.res.ColorStateList
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.cardview.widget.CardView
-import androidx.core.widget.CompoundButtonCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.checkbox.MaterialCheckBox
 import com.thepascal.todolist.R
@@ -36,6 +34,7 @@ class ToDoAdapter(var context: Context, private val dataSet: List<ToDoModel>) :
         holder.taskType.text = toDoTask.type
         holder.taskTitle.text = toDoTask.title
         holder.itemPosition = position
+        holder.taskColorPatch.setBackgroundColor(toDoTask.color!!)
         if (toDoTask.taskState == TaskState.COMPLETED) {
             holder.taskCheckBox.isChecked = true
         }
@@ -56,6 +55,7 @@ class ToDoAdapter(var context: Context, private val dataSet: List<ToDoModel>) :
         val taskTitle: TextView = itemView.findViewById(R.id.itemTaskTitle)
         val taskCheckBox: MaterialCheckBox = itemView.findViewById(R.id.itemTaskCompleted)
         val taskDeleteImage: ImageView = itemView.findViewById(R.id.itemTaskDeleteImage)
+        val taskColorPatch: View = itemView.findViewById(R.id.itemTaskColorPatch)
         private val taskCardView: CardView = itemView.findViewById(R.id.itemTaskCardView)
 
         var itemPosition = 0

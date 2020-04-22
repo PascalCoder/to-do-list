@@ -7,10 +7,10 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="5dp"
-    android:padding="10dp"
     app:cardCornerRadius="4dp"
     app:cardElevation="4dp"
-    app:contentPadding="10dp">
+    app:contentPaddingLeft="10dp"
+    app:contentPaddingRight="0dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -22,6 +22,11 @@
             android:id="@+id/itemTaskDeleteImage"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:layout_marginEnd="10dp"
             android:contentDescription="@string/delete_task_text"
             android:tint="@color/colorAccent"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -33,29 +38,45 @@
             android:id="@+id/itemTaskType"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
             android:gravity="center"
             app:layout_constraintEnd_toStartOf="@id/itemTaskCompleted"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintStart_toEndOf="@id/itemTaskDeleteImage"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="Grocery" />
 
         <TextView
             android:id="@+id/itemTaskTitle"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginBottom="10dp"
             android:gravity="center"
-            app:layout_constraintEnd_toEndOf="@id/itemTaskType"
-            app:layout_constraintStart_toStartOf="@id/itemTaskType"
+            app:layout_constraintStart_toEndOf="@id/itemTaskDeleteImage"
+            app:layout_constraintEnd_toStartOf="@id/itemTaskCompleted"
             app:layout_constraintTop_toBottomOf="@id/itemTaskType"
-            tools:text="Peek up grocery from Kroger" />
+            app:layout_constraintBottom_toBottomOf="parent"
+            tools:text="Peek up grocery from Kroger at a certain time with some friends" />
 
         <com.google.android.material.checkbox.MaterialCheckBox
             android:id="@+id/itemTaskCompleted"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="5dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/itemTaskColorPatch"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <View
+            android:id="@+id/itemTaskColorPatch"
+            android:layout_width="12dp"
+            android:layout_height="0dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            android:background="@color/colorPrimaryDark"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

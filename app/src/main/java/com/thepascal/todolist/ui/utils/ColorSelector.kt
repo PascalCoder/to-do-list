@@ -17,14 +17,40 @@ class ColorSelector @JvmOverloads constructor(
     defStyleAttr: Int = 0, defStyleRes: Int = 0
 ) : LinearLayout(_context, attrs, defStyleAttr, defStyleRes) {
 
-    private var listOfColors = listOf(
-        Color.RED, Color.YELLOW, Color.rgb(255, 165, 0),
-        Color.GREEN, Color.BLUE
+    var listOfColors = listOf(
+        Color.RED, Color.rgb(255, 165, 0),
+        Color.YELLOW, Color.GREEN, Color.BLUE
     )
-    private var selectedColorIndex = 0 //this will keep track of which color is selected
+    var selectedColorIndex = 0 //this will keep track of which color is selected
+    var selectedColorValue:Int? = android.R.color.transparent //will used to keep track of the selectedColor's color
+        set(value) {
+            var index = listOfColors.indexOf(value)
+            if (index == -1) {
+                colorCheckBox.isChecked = false
+                index = 0
+            } else {
+                //if (!colorCheckBox.isChecked)
+                    colorCheckBox.isChecked = true
+            }
+            selectedColorIndex = index
+            selectedColor.setBackgroundColor(listOfColors[selectedColorIndex])
+        }
+        /*get() {
+            var index = listOfColors.indexOf(field)
+            if (index == -1) {
+                colorCheckBox.isChecked = false
+                index = 0
+            } else {
+                //if (!colorCheckBox.isChecked)
+                colorCheckBox.isChecked = true
+            }
+            selectedColorIndex = index
+            selectedColor.setBackgroundColor(listOfColors[selectedColorIndex])
+            return field
+        }*/
 
     private var colorSelectorListener: ColorSelectorListener? = null
-    private fun setListener(listener: ColorSelectorListener) {
+    fun setListener(listener: ColorSelectorListener) {
         colorSelectorListener = listener
     }
 
@@ -47,6 +73,7 @@ class ColorSelector @JvmOverloads constructor(
         colorCheckBox.setOnCheckedChangeListener { _, _ ->
             saveSelectedColor()
         }
+        saveSelectedColor()
     }
 
     interface ColorSelectorListener {
