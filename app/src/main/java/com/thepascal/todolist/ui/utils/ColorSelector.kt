@@ -30,8 +30,7 @@ class ColorSelector @JvmOverloads constructor(
                 colorCheckBox.isChecked = false
                 index = 0
             } else {
-                //if (!colorCheckBox.isChecked)
-                    colorCheckBox.isChecked = true
+                colorCheckBox.isChecked = true
             }
             selectedColorIndex = index
             selectedColor.setBackgroundColor(listOfColors[selectedColorIndex])
@@ -56,14 +55,14 @@ class ColorSelector @JvmOverloads constructor(
     }
 
     init {
-       /* val typedArray: TypedArray = context.obtainStyledAttributes(
+        val typedArray: TypedArray = _context.obtainStyledAttributes(
             attrs, R.styleable.ColorSelector
         )
         listOfColors = typedArray.getTextArray(R.styleable.ColorSelector_colors)
             .map {
                 Color.parseColor(it.toString())
             }
-        typedArray.recycle()*/
+        typedArray.recycle()
 
         orientation = HORIZONTAL
         val inflater: LayoutInflater =
