@@ -1,6 +1,5 @@
 package com.thepascal.todolist.ui.viewmodels
 
-import android.graphics.Color
 import androidx.lifecycle.ViewModel
 import com.thepascal.todolist.POSITION_NOT_SET
 import com.thepascal.todolist.model.DataManager
@@ -25,7 +24,6 @@ class ToDoViewModel: ViewModel() {
     var taskPosition = POSITION_NOT_SET
 
     var toDoTask: ToDoModel? = null
-    var toDoTaskColor: Int? = Color.TRANSPARENT
 
     fun createOrUpdateTask(taskPosition: Int) {
         //Add the task to the database

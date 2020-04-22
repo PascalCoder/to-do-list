@@ -1,6 +1,5 @@
 package com.thepascal.todolist.model
 
-import android.graphics.Color
 import android.os.Parcel
 import android.os.Parcelable
 
@@ -13,7 +12,7 @@ data class ToDoModel(
     var dueTime: String?,
     val address: AddressModel?,
     var taskState: TaskState? = TaskState.ACTIVE,
-    var color: Int? = Color.TRANSPARENT
+    var color: Int? = android.R.color.transparent
 ) : Parcelable {
     constructor(parcel: Parcel) : this(
         parcel.readString(),

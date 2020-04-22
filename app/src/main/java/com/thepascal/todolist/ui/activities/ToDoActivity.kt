@@ -3,6 +3,7 @@ package com.thepascal.todolist.ui.activities
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
 import android.content.Intent
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -23,6 +24,7 @@ import com.thepascal.todolist.ui.fragments.DatePickerFragment
 import com.thepascal.todolist.ui.fragments.TimePickerFragment
 import com.thepascal.todolist.ui.viewmodels.ToDoViewModel
 import kotlinx.android.synthetic.main.activity_to_do.*
+import kotlinx.android.synthetic.main.color_selector.view.*
 import kotlinx.android.synthetic.main.content_address.view.*
 import java.text.DateFormat
 import java.util.*
@@ -59,14 +61,11 @@ class ToDoActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener,
         } else {
             if (!toDoViewModel.isViewModelNew) {
                 repopulateFieldsWithViewModel()
-                /*toDoTaskColorSelector.selectedColorValue = toDoViewModel.toDoTask?.color
-                toDoTaskColor = toDoViewModel.toDoTask?.color*/
             }
         }
 
         toDoTaskColorSelector.setListener {
             toDoViewModel.toDoTask?.color = it
-            toDoViewModel.toDoTaskColor = it
         }
 
         toDoTaskDueDateButton.setOnClickListener {
@@ -167,7 +166,7 @@ class ToDoActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener,
         val datePosted = Calendar.getInstance().time.toString()
         val dueDate = toDoTaskDueDateText.text.toString()
         val dueTime = toDoTaskDueTimeText.text.toString()
-        val color = toDoTaskColorSelector.selectedColorValue
+        val color = (toDoTaskColorSelector.selectedColor.background as ColorDrawable).color
 
         val address: AddressModel? = if (toDoViewModel.isAddressContentDisplayed) {
             AddressModel(
@@ -189,12 +188,9 @@ class ToDoActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener,
             datePosted = datePosted, dueDate = dueDate,
             dueTime = dueTime, address = address,
             taskState = TaskState.ACTIVE,
-            color = toDoViewModel.toDoTaskColor
+            color = color
         )
 
-        toDoTaskColorSelector.selectedColorValue = toDoViewModel.toDoTask?.color
-        /*toDoViewModel.toDoTask?.color = color
-        toDoViewModel.toDoTaskColor = color*/
     }
 
     private fun populateSpinner() {

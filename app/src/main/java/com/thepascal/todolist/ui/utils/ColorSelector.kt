@@ -35,19 +35,6 @@ class ColorSelector @JvmOverloads constructor(
             selectedColorIndex = index
             selectedColor.setBackgroundColor(listOfColors[selectedColorIndex])
         }
-        /*get() {
-            var index = listOfColors.indexOf(field)
-            if (index == -1) {
-                colorCheckBox.isChecked = false
-                index = 0
-            } else {
-                //if (!colorCheckBox.isChecked)
-                colorCheckBox.isChecked = true
-            }
-            selectedColorIndex = index
-            selectedColor.setBackgroundColor(listOfColors[selectedColorIndex])
-            return field
-        }*/
 
     private var colorSelectorListener: ((Int) -> Unit)? = null
     fun setListener(listener: (Int) -> Unit) {
