@@ -7,15 +7,16 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.thepascal.todolist.db.entities.TaskEntity
+import com.thepascal.todolist.model.TaskState
 
 @Dao
 interface TaskDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertOrUpdateTask(task: TaskEntity)
+    fun insertOrUpdateTask(task: TaskEntity)
 
     @Query("SELECT * FROM tasks" )
-    suspend fun getAllTasks() : LiveData<List<TaskEntity>>
+    fun getAllTasks() : LiveData<List<TaskEntity>>
 
     @Query("SELECT * FROM tasks WHERE task_state LIKE 1")
     fun getActiveTasks() : LiveData<List<TaskEntity>>
