@@ -2,10 +2,13 @@ package com.thepascal.todolist.ui.viewmodels
 
 import androidx.lifecycle.ViewModel
 import com.thepascal.todolist.POSITION_NOT_SET
+import com.thepascal.todolist.db.entities.TaskEntity
 import com.thepascal.todolist.model.DataManager
 import com.thepascal.todolist.model.ToDoModel
+import com.thepascal.todolist.repository.TaskRepository
+import com.thepascal.todolist.ui.viewmodels.utils.lazyDeferred
 
-class ToDoViewModel: ViewModel() {
+class ToDoViewModel(private val repository: TaskRepository?): ViewModel() {
 
     /*var _type: LiveData<String> = MutableLiveData<String>().apply { value = ""}
     var _title: LiveData<String> = MutableLiveData<String>().apply { value = ""}
@@ -41,5 +44,33 @@ class ToDoViewModel: ViewModel() {
                 }
             }
         }
+    }
+
+    var taskEntity: TaskEntity? = null
+
+    var taskId: Int? = null
+
+    val addingTask by lazyDeferred {
+        repository?.insertTask(taskEntity!!)
+    }
+
+    val allTasks by lazyDeferred {
+        repository?.loadAllTasks()
+    }
+
+    val activeTasks by lazyDeferred {
+        repository?.loadActiveTasks()
+    }
+
+    val completedTasks by lazyDeferred {
+        repository?.loadCompletedTasks()
+    }
+
+    val deletedTasks by lazyDeferred {
+        repository?.loadDeletedTasks()
+    }
+
+    val deletingTask by lazyDeferred {
+        repository?.deleteTask(taskEntity!!)
     }
 }
