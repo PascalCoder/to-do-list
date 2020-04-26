@@ -23,17 +23,20 @@ import com.thepascal.todolist.model.ToDoModel
 import com.thepascal.todolist.ui.fragments.DatePickerFragment
 import com.thepascal.todolist.ui.fragments.TimePickerFragment
 import com.thepascal.todolist.ui.viewmodels.ToDoViewModel
+import com.thepascal.todolist.ui.viewmodels.utils.ToDoViewModelFactory
 import kotlinx.android.synthetic.main.activity_to_do.*
 import kotlinx.android.synthetic.main.color_selector.view.*
 import kotlinx.android.synthetic.main.content_address.view.*
+import org.koin.android.ext.android.inject
 import java.text.DateFormat
 import java.util.*
 
 class ToDoActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener,
     TimePickerDialog.OnTimeSetListener {
 
+    private val mToDoViewModelFactory by inject<ToDoViewModelFactory>()
     private val toDoViewModel: ToDoViewModel by lazy {
-        ViewModelProvider(this).get(
+        ViewModelProvider(this, mToDoViewModelFactory).get(
             ToDoViewModel::class.java
         )
     }

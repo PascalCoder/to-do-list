@@ -4,7 +4,10 @@ import android.app.Application
 import com.thepascal.todolist.db.TaskDatabase
 import com.thepascal.todolist.repository.TaskRepository
 import com.thepascal.todolist.repository.TaskRepositoryImpl
+import com.thepascal.todolist.ui.viewmodels.ToDoViewModel
+import com.thepascal.todolist.ui.viewmodels.utils.ToDoViewModelFactory
 import org.koin.android.ext.koin.androidContext
+import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.core.context.startKoin
 import org.koin.dsl.module
 
@@ -16,6 +19,7 @@ class TaskApplication : Application() {
         single { TaskDatabase(this@TaskApplication) }
         single { get<TaskDatabase>().taskDao() }
         single<TaskRepository> { TaskRepositoryImpl(get()) }
+        factory { ToDoViewModelFactory(get()) }
     }
 
     override fun onCreate() {
