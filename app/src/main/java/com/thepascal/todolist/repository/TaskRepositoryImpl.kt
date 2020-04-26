@@ -38,9 +38,9 @@ class TaskRepositoryImpl(private val taskDao: TaskDao) : TaskRepository {
         }
     }
 
-    override suspend fun deleteTask(id: Int) {
+    override suspend fun deleteTask(task: TaskEntity) {
         withContext(Dispatchers.IO) {
-            taskDao.deleteTask(id)
+            taskDao.deleteTask(task)
         }
     }
 }

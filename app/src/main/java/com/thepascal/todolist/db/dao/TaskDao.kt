@@ -7,7 +7,6 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.thepascal.todolist.db.entities.TaskEntity
-import com.thepascal.todolist.model.TaskState
 
 @Dao
 interface TaskDao {
@@ -31,5 +30,5 @@ interface TaskDao {
     fun getTaskById(id: Int) : LiveData<List<TaskEntity>>
 
     @Delete
-    fun deleteTask(id: Int)
+    fun deleteTask(task: TaskEntity)
 }

@@ -10,5 +10,5 @@ interface TaskRepository {
     suspend fun loadActiveTasks() : LiveData<List<TaskEntity>>
     suspend fun loadCompletedTasks() : LiveData<List<TaskEntity>>
     suspend fun loadDeletedTasks() : LiveData<List<TaskEntity>>
-    suspend fun deleteTask(id: Int)
+    suspend fun deleteTask(task: TaskEntity)
 }
