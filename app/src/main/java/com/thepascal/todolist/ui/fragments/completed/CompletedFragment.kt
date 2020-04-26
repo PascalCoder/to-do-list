@@ -22,7 +22,7 @@ class CompletedFragment : Fragment(), ToDoAdapter.OnTaskClickedListener {
     }
     private val completedTasksLayoutManager by lazy { LinearLayoutManager(context) }
     private val completedTasksAdapter by lazy {
-        val adapter = ToDoAdapter(context!!, DataManager.completedTaskList)
+        val adapter = ToDoAdapter(requireContext(), DataManager.completedTaskList)
         adapter.setOnTaskClickedListener(this)
         adapter
     }

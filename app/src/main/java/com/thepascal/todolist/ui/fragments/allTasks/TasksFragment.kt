@@ -22,7 +22,7 @@ class TasksFragment : Fragment() {
 
     private val tasksViewModel: TasksViewModel by lazy { ViewModelProvider(this).get(TasksViewModel::class.java) }
     private val tasksLayoutManager by lazy { LinearLayoutManager(context) }
-    private val tasksAdapter by lazy { ToDoAdapter(context!!, DataManager.allTaskList) }
+    private val tasksAdapter by lazy { ToDoAdapter(requireContext(), DataManager.allTaskList) }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

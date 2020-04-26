@@ -21,7 +21,7 @@ class DeletedFragment : Fragment(), ToDoAdapter.OnTaskClickedListener {
     private val deletedViewModel: DeletedViewModel by lazy { ViewModelProvider(this).get(DeletedViewModel::class.java) }
     private val deletedTasksLayoutManager by lazy { LinearLayoutManager(context) }
     private val deletedTasksAdapter by lazy {
-        val adapter = ToDoAdapter(context!!, DataManager.deletedTaskList)
+        val adapter = ToDoAdapter(requireContext(), DataManager.deletedTaskList)
         adapter.setOnTaskClickedListener(this)
         adapter
     }

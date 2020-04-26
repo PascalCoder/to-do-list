@@ -20,7 +20,7 @@ class HomeFragment : Fragment(), ToDoAdapter.OnTaskClickedListener {
     private val homeViewModel: HomeViewModel by lazy { ViewModelProvider(this).get(HomeViewModel::class.java) }
     private val homeLayoutManager by lazy { LinearLayoutManager(context) }
     private val homeAdapter by lazy {
-        val adapter = ToDoAdapter(context!!, DataManager.activeTaskList)
+        val adapter = ToDoAdapter(requireContext(), DataManager.activeTaskList)
         adapter.setOnTaskClickedListener(this)
         adapter
     }
