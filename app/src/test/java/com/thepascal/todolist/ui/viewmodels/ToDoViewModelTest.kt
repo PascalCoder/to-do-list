@@ -4,18 +4,30 @@ import com.thepascal.todolist.POSITION_NOT_SET
 import com.thepascal.todolist.model.AddressModel
 import com.thepascal.todolist.model.DataManager
 import com.thepascal.todolist.model.ToDoModel
+import com.thepascal.todolist.repository.TaskRepository
 import org.junit.Before
 import org.junit.Test
 
 import org.junit.Assert.*
+import org.junit.Rule
+import org.mockito.Mock
+import org.mockito.junit.MockitoJUnit
+import org.mockito.junit.MockitoRule
 
 class ToDoViewModelTest {
 
+    @Rule
+    @JvmField
+    val mockitoRule: MockitoRule = MockitoJUnit.rule()
+
     private lateinit var viewModel: ToDoViewModel
+
+    @Mock
+    private lateinit var repository: TaskRepository
 
     @Before
     fun setUp() {
-        viewModel = ToDoViewModel()
+        viewModel = ToDoViewModel(repository)
     }
 
     @Test
