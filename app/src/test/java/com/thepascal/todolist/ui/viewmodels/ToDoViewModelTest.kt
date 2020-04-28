@@ -1,16 +1,20 @@
 package com.thepascal.todolist.ui.viewmodels
 
 import com.thepascal.todolist.POSITION_NOT_SET
+import com.thepascal.todolist.db.entities.TaskEntity
 import com.thepascal.todolist.model.AddressModel
 import com.thepascal.todolist.model.DataManager
+import com.thepascal.todolist.model.TaskState
 import com.thepascal.todolist.model.ToDoModel
 import com.thepascal.todolist.repository.TaskRepository
+import kotlinx.coroutines.runBlocking
 import org.junit.Before
 import org.junit.Test
 
 import org.junit.Assert.*
 import org.junit.Rule
 import org.mockito.Mock
+import org.mockito.Mockito
 import org.mockito.junit.MockitoJUnit
 import org.mockito.junit.MockitoRule
 
@@ -24,6 +28,12 @@ class ToDoViewModelTest {
 
     @Mock
     private lateinit var repository: TaskRepository
+
+    private val taskEntity = TaskEntity(
+        0, DataManager.taskTypeList[1], "Dentist Appointment",
+        "Will need to go see my dentist for clean up", "04/27/2020",
+        "05/04/2020", "10:00 AM", null, TaskState.ACTIVE
+    )
 
     @Before
     fun setUp() {
@@ -82,5 +92,51 @@ class ToDoViewModelTest {
         assertEquals(updatedToDoTask.dueTime, actualToDoTask.dueTime)
         assertEquals(updatedToDoTask.address, actualToDoTask.address)
         assertEquals(updatedToDoTask.taskState, actualToDoTask.taskState)
+    }
+
+    @Test
+    fun `test addTask`() = runBlocking {
+        viewModel.taskEntity = taskEntity
+        viewModel.addTask(taskEntity)
+
+        Mockito.verify(repository).insertTask(taskEntity)
+    }
+
+    @Test
+    fun `test getAllTasks`() {
+        viewModel.getAllTasks()
+        runBlocking {
+            Mockito.verify(repository).loadAllTasks()
+        }
+    }
+
+    @Test
+    fun `test getActiveTasks`() {
+        viewModel.getActiveTasks()
+        runBlocking {
+            Mockito.verify(repository).loadActiveTasks()
+        }
+    }
+
+    @Test
+    fun `test getCompletedTasks`() {
+        viewModel.getCompletedTasks()
+        runBlocking {
+            Mockito.verify(repository).loadCompletedTasks()
+        }
+    }
+
+    @Test
+    fun `test getDeletedTasks`() {
+        viewModel.getDeletedTasks()
+        runBlocking {
+            Mockito.verify(repository).loadDeletedTasks()
+        }
+    }
+
+    @Test
+    fun `test deleteTask`() = runBlocking {
+        viewModel.deleteTask(taskEntity)
+        Mockito.verify(repository).deleteTask(taskEntity)
     }
 }

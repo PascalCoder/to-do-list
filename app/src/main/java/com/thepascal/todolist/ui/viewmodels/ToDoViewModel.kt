@@ -6,7 +6,7 @@ import com.thepascal.todolist.db.entities.TaskEntity
 import com.thepascal.todolist.model.DataManager
 import com.thepascal.todolist.model.ToDoModel
 import com.thepascal.todolist.repository.TaskRepository
-import com.thepascal.todolist.ui.viewmodels.utils.lazyDeferred
+import kotlinx.coroutines.runBlocking
 
 class ToDoViewModel(private val repository: TaskRepository?): ViewModel() {
 
@@ -50,27 +50,40 @@ class ToDoViewModel(private val repository: TaskRepository?): ViewModel() {
 
     var taskId: Int? = null
 
-    val addingTask by lazyDeferred {
-        repository?.insertTask(taskEntity!!)
+    fun addTask(task: TaskEntity) {
+        runBlocking {
+            repository?.insertTask(task)
+        }
+
     }
 
-    val allTasks by lazyDeferred {
-        repository?.loadAllTasks()
+    fun getAllTasks() {
+        runBlocking {
+            repository?.loadAllTasks()
+        }
     }
 
-    val activeTasks by lazyDeferred {
-        repository?.loadActiveTasks()
+    fun getActiveTasks() {
+        runBlocking {
+            repository?.loadActiveTasks()
+        }
     }
 
-    val completedTasks by lazyDeferred {
-        repository?.loadCompletedTasks()
+    fun getCompletedTasks() {
+        runBlocking {
+            repository?.loadCompletedTasks()
+        }
     }
 
-    val deletedTasks by lazyDeferred {
-        repository?.loadDeletedTasks()
+    fun getDeletedTasks() {
+        runBlocking {
+            repository?.loadDeletedTasks()
+        }
     }
 
-    val deletingTask by lazyDeferred {
-        repository?.deleteTask(taskEntity!!)
+    fun deleteTask(task: TaskEntity) {
+        runBlocking {
+            repository?.deleteTask(task)
+        }
     }
 }
