@@ -1,14 +1,14 @@
 package com.thepascal.todolist.ui.viewmodels
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import com.thepascal.todolist.POSITION_NOT_SET
 import com.thepascal.todolist.db.entities.TaskEntity
 import com.thepascal.todolist.model.DataManager
 import com.thepascal.todolist.model.ToDoModel
 import com.thepascal.todolist.repository.TaskRepository
-import kotlinx.coroutines.runBlocking
 
-class ToDoViewModel(private val repository: TaskRepository?): ViewModel() {
+class ToDoViewModel(private val repository: TaskRepository): ViewModel() {
 
     /*var _type: LiveData<String> = MutableLiveData<String>().apply { value = ""}
     var _title: LiveData<String> = MutableLiveData<String>().apply { value = ""}
@@ -50,40 +50,27 @@ class ToDoViewModel(private val repository: TaskRepository?): ViewModel() {
 
     var taskId: Int? = null
 
-    fun addTask(task: TaskEntity) {
-        runBlocking {
-            repository?.insertTask(task)
-        }
-
+    suspend fun addTask(task: TaskEntity) {
+        repository.insertTask(task)
     }
 
-    fun getAllTasks() {
-        runBlocking {
-            repository?.loadAllTasks()
-        }
+    suspend fun getAllTasks(): LiveData<List<TaskEntity>> {
+        return repository.loadAllTasks()
     }
 
-    fun getActiveTasks() {
-        runBlocking {
-            repository?.loadActiveTasks()
-        }
+    suspend fun getActiveTasks(): LiveData<List<TaskEntity>> {
+        return repository.loadActiveTasks()
     }
 
-    fun getCompletedTasks() {
-        runBlocking {
-            repository?.loadCompletedTasks()
-        }
+    suspend fun getCompletedTasks(): LiveData<List<TaskEntity>> {
+        return repository.loadCompletedTasks()
     }
 
-    fun getDeletedTasks() {
-        runBlocking {
-            repository?.loadDeletedTasks()
-        }
+    suspend fun getDeletedTasks(): LiveData<List<TaskEntity>> {
+        return repository.loadDeletedTasks()
     }
 
-    fun deleteTask(task: TaskEntity) {
-        runBlocking {
-            repository?.deleteTask(task)
-        }
+    suspend fun deleteTask(task: TaskEntity) {
+        repository.deleteTask(task)
     }
 }

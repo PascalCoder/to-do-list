@@ -8,11 +8,10 @@ import com.thepascal.todolist.model.TaskState
 import com.thepascal.todolist.model.ToDoModel
 import com.thepascal.todolist.repository.TaskRepository
 import kotlinx.coroutines.runBlocking
+import org.junit.Assert.assertEquals
 import org.junit.Before
-import org.junit.Test
-
-import org.junit.Assert.*
 import org.junit.Rule
+import org.junit.Test
 import org.mockito.Mock
 import org.mockito.Mockito
 import org.mockito.junit.MockitoJUnit
@@ -104,32 +103,32 @@ class ToDoViewModelTest {
 
     @Test
     fun `test getAllTasks`() {
-        viewModel.getAllTasks()
         runBlocking {
+            viewModel.getAllTasks()
             Mockito.verify(repository).loadAllTasks()
         }
     }
 
     @Test
     fun `test getActiveTasks`() {
-        viewModel.getActiveTasks()
         runBlocking {
+            viewModel.getActiveTasks()
             Mockito.verify(repository).loadActiveTasks()
         }
     }
 
     @Test
     fun `test getCompletedTasks`() {
-        viewModel.getCompletedTasks()
         runBlocking {
+            viewModel.getCompletedTasks()
             Mockito.verify(repository).loadCompletedTasks()
         }
     }
 
     @Test
     fun `test getDeletedTasks`() {
-        viewModel.getDeletedTasks()
         runBlocking {
+            viewModel.getDeletedTasks()
             Mockito.verify(repository).loadDeletedTasks()
         }
     }
