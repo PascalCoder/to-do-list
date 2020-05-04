@@ -10,7 +10,7 @@ import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.DatePicker
 import android.widget.TimePicker
-import androidx.appcompat.app.AppCompatActivity
+import android.widget.Toast
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.ViewModelProvider
 import com.thepascal.todolist.POSITION_NOT_SET
@@ -22,16 +22,18 @@ import com.thepascal.todolist.model.TaskState
 import com.thepascal.todolist.model.ToDoModel
 import com.thepascal.todolist.ui.fragments.DatePickerFragment
 import com.thepascal.todolist.ui.fragments.TimePickerFragment
+import com.thepascal.todolist.ui.utils.convertToTaskEntity
 import com.thepascal.todolist.ui.viewmodels.ToDoViewModel
 import com.thepascal.todolist.ui.viewmodels.utils.ToDoViewModelFactory
 import kotlinx.android.synthetic.main.activity_to_do.*
 import kotlinx.android.synthetic.main.color_selector.view.*
 import kotlinx.android.synthetic.main.content_address.view.*
+import kotlinx.coroutines.launch
 import org.koin.android.ext.android.inject
 import java.text.DateFormat
 import java.util.*
 
-class ToDoActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener,
+class ToDoActivity : ScopedActivity(), DatePickerDialog.OnDateSetListener,
     TimePickerDialog.OnTimeSetListener {
 
     private val mToDoViewModelFactory by inject<ToDoViewModelFactory>()
@@ -90,7 +92,14 @@ class ToDoActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener,
         toDoTaskSubmitButton.setOnClickListener {
             setUpToDoViewModelWithUserInputs()
             toDoViewModel.createOrUpdateTask(toDoViewModel.taskPosition)
-            Log.d("Created task", "Task: ${toDoViewModel.toDoTask}")
+
+            launch {
+                toDoViewModel.toDoTask?.let {
+                    toDoViewModel.addTask(it.convertToTaskEntity())
+                    Toast.makeText(this@ToDoActivity, "Task inserted",Toast.LENGTH_LONG).show()
+                }
+            }
+            Log.d("Created task", "Task: ${toDoViewModel.toDoTask?.convertToTaskEntity()}")
 
             //Navigate to the Home page
             val intent = Intent(this, MainActivity::class.java)

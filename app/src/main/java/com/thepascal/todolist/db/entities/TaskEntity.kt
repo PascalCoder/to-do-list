@@ -7,7 +7,7 @@ import androidx.room.PrimaryKey
 import com.thepascal.todolist.model.TaskState
 
 @Entity(tableName = "tasks")
-class TaskEntity(
+data class TaskEntity(
     @PrimaryKey(autoGenerate = true)
     val id: Int,
     val type: String?,
@@ -16,9 +16,9 @@ class TaskEntity(
     @ColumnInfo(name = "date_posted")
     val datePosted: String?,
     @ColumnInfo(name = "due_date")
-    val dueDate: String?,
+    var dueDate: String?,
     @ColumnInfo(name = "due_time")
-    val dueTime: String?,
+    var dueTime: String?,
     @Embedded(prefix = "address_")
     val address: AddressEntity?,
     @ColumnInfo(name = "task_state")
