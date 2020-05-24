@@ -14,6 +14,12 @@ class TaskRepositoryImpl(private val taskDao: TaskDao) : TaskRepository {
         }
     }
 
+    override suspend fun updateTask(task: TaskEntity) {
+        withContext(Dispatchers.IO) {
+            taskDao.updateTask(task)
+        }
+    }
+
     override suspend fun loadAllTasks(): LiveData<List<TaskEntity>> {
         return withContext(Dispatchers.IO) {
             return@withContext taskDao.getAllTasks()

@@ -6,6 +6,7 @@ import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import androidx.room.Update
 import com.thepascal.todolist.db.entities.TaskEntity
 
 @Dao
@@ -13,6 +14,9 @@ interface TaskDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertOrUpdateTask(task: TaskEntity)
+
+    @Update
+    fun updateTask(task: TaskEntity)
 
     @Query("SELECT * FROM tasks" )
     fun getAllTasks() : LiveData<List<TaskEntity>>
