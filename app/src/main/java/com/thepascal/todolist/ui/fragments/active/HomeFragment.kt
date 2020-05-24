@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -22,7 +23,10 @@ import org.koin.android.ext.android.inject
 
 class HomeFragment : ScopedFragment(), ToDoAdapter.OnTaskClickedListener {
 
-    private val homeViewModel: HomeViewModel by lazy { ViewModelProvider(this).get(HomeViewModel::class.java) }
+    private val mHomeViewModelFactory by inject<HomeViewModelFactory>()
+    private val homeViewModel: HomeViewModel by lazy {
+        ViewModelProvider(this, mHomeViewModelFactory).get(HomeViewModel::class.java)
+    }
     private val mToDoViewModelFactory by inject<ToDoViewModelFactory>()
     private val toDoViewModel: ToDoViewModel by lazy {
         ViewModelProvider(this, mToDoViewModelFactory).get(
@@ -33,6 +37,7 @@ class HomeFragment : ScopedFragment(), ToDoAdapter.OnTaskClickedListener {
     private lateinit var homeAdapter: ToDoAdapter
 
     private var activeTasks: List<TaskEntity> = mutableListOf()
+    private var position = -1
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -60,6 +65,15 @@ class HomeFragment : ScopedFragment(), ToDoAdapter.OnTaskClickedListener {
         return root
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        launch {
+            toDoViewModel.getActiveTasks().observe(viewLifecycleOwner, Observer {
+                activeTasks = it
+            })
+        }
+    }
+
     override fun onResume() {
         super.onResume()
         Log.d("HomeFragment", "onResume was called!")
@@ -68,7 +82,19 @@ class HomeFragment : ScopedFragment(), ToDoAdapter.OnTaskClickedListener {
     override fun onCheckBoxClicked(itemPosition: Int) {
         Log.d("HomeFragment", "Clicked!")
         //val handler = Handler(Looper.getMainLooper())
-        homeViewModel.handleTaskCompleted(itemPosition)
+        launch {
+
+            val taskEntity = activeTasks[itemPosition]
+            position = itemPosition
+
+            if (position != -1) {
+                homeViewModel.handleTaskCompleted(taskEntity)
+                position = -1
+            }
+
+            Toast.makeText(requireContext(), "Task completed", Toast.LENGTH_LONG).show()
+        }
+
         /*handler.postDelayed({
             homeAdapter.notifyDataSetChanged()
         }, 0)*/
