@@ -70,14 +70,15 @@ class ToDoViewModelTest {
     fun `test createOrUpdateTask when updating new task`() {
         val taskPosition = 1
         var updatedToDoTask = DataManager.activeTaskList[taskPosition]
-        updatedToDoTask = ToDoModel(
+        updatedToDoTask = ToDoModel(0,
             updatedToDoTask.type,
             "This is the updated title",
             updatedToDoTask.description,
             updatedToDoTask.datePosted,
             updatedToDoTask.dueDate,
             updatedToDoTask.dueTime,
-            updatedToDoTask.address
+            updatedToDoTask.address,
+            TaskState.ACTIVE, 0
         )
 
         viewModel.toDoTask = updatedToDoTask

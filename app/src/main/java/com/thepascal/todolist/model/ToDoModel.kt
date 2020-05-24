@@ -4,6 +4,7 @@ import android.os.Parcel
 import android.os.Parcelable
 
 data class ToDoModel(
+    var id: Int = 0,
     val type: String?,
     val title: String?,
     val description: String?,
@@ -15,6 +16,7 @@ data class ToDoModel(
     var color: Int? = android.R.color.transparent
 ) : Parcelable {
     constructor(parcel: Parcel) : this(
+        parcel.readInt(),
         parcel.readString(),
         parcel.readString(),
         parcel.readString(),

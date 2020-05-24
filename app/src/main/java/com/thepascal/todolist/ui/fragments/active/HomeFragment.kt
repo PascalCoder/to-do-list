@@ -6,24 +6,33 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.thepascal.todolist.R
 import com.thepascal.todolist.adapter.ToDoAdapter
-import com.thepascal.todolist.model.DataManager
+import com.thepascal.todolist.db.entities.TaskEntity
+import com.thepascal.todolist.ui.fragments.ScopedFragment
+import com.thepascal.todolist.ui.utils.convertToToDoModelList
+import com.thepascal.todolist.ui.viewmodels.ToDoViewModel
+import com.thepascal.todolist.ui.viewmodels.utils.ToDoViewModelFactory
+import kotlinx.coroutines.launch
+import org.koin.android.ext.android.inject
 
-class HomeFragment : Fragment(), ToDoAdapter.OnTaskClickedListener {
+class HomeFragment : ScopedFragment(), ToDoAdapter.OnTaskClickedListener {
 
     private val homeViewModel: HomeViewModel by lazy { ViewModelProvider(this).get(HomeViewModel::class.java) }
-    private val homeLayoutManager by lazy { LinearLayoutManager(context) }
-    private val homeAdapter by lazy {
-        val adapter = ToDoAdapter(requireContext(), DataManager.activeTaskList)
-        adapter.setOnTaskClickedListener(this)
-        adapter
+    private val mToDoViewModelFactory by inject<ToDoViewModelFactory>()
+    private val toDoViewModel: ToDoViewModel by lazy {
+        ViewModelProvider(this, mToDoViewModelFactory).get(
+            ToDoViewModel::class.java
+        )
     }
+    private val homeLayoutManager by lazy { LinearLayoutManager(context) }
+    private lateinit var homeAdapter: ToDoAdapter
+
+    private var activeTasks: List<TaskEntity> = mutableListOf()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -36,9 +45,17 @@ class HomeFragment : Fragment(), ToDoAdapter.OnTaskClickedListener {
             textView.text = it
         })
 
-        val recyclerView = root.findViewById<RecyclerView?>(R.id.homeRecyclerView)
-        recyclerView?.layoutManager = homeLayoutManager//LinearLayoutManager(context)
-        recyclerView?.adapter = homeAdapter//toDoAdapter
+        launch {
+            toDoViewModel.getActiveTasks().observe(viewLifecycleOwner, Observer {
+                activeTasks = it
+                homeAdapter = ToDoAdapter(requireContext(), activeTasks.convertToToDoModelList())//DataManager.activeTaskList
+                homeAdapter.setOnTaskClickedListener(this@HomeFragment)
+
+                val recyclerView = root.findViewById<RecyclerView?>(R.id.homeRecyclerView)
+                recyclerView?.layoutManager = homeLayoutManager//LinearLayoutManager(context)
+                recyclerView?.adapter = homeAdapter//toDoAdapter
+            })
+        }
 
         return root
     }

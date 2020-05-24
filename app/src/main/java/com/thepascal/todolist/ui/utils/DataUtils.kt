@@ -14,6 +14,15 @@ fun AddressModel.convertToAddressEntity(): AddressEntity {
     )
 }
 
+fun AddressEntity.convertToAddressModel(): AddressModel {
+    return AddressModel(
+        addressLine1,
+        addressLine2,
+        city, state,
+        country, zipCode
+    )
+}
+
 fun ToDoModel.convertToTaskEntity(): TaskEntity {
     return TaskEntity(
         0, type, title,
@@ -22,4 +31,19 @@ fun ToDoModel.convertToTaskEntity(): TaskEntity {
         address?.convertToAddressEntity(),
         taskState, color
     )
+}
+
+fun TaskEntity.convertToToDoModel(): ToDoModel {
+    return ToDoModel(
+        id, type, title,
+        description, datePosted,
+        dueDate, dueTime,
+        address?.convertToAddressModel(),
+        taskState,color
+    )
+}
+
+fun List<TaskEntity>.convertToToDoModelList(): List<ToDoModel> {
+    //var result = mutableListOf<ToDoModel>()
+    return this.map { it.convertToToDoModel() }
 }
