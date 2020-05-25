@@ -7,6 +7,7 @@ import com.thepascal.todolist.repository.TaskRepository
 import com.thepascal.todolist.repository.TaskRepositoryImpl
 import com.thepascal.todolist.ui.fragments.active.HomeViewModelFactory
 import com.thepascal.todolist.ui.fragments.completed.CompletedViewModelFactory
+import com.thepascal.todolist.ui.fragments.deleted.DeletedViewModelFactory
 import com.thepascal.todolist.ui.viewmodels.ToDoViewModel
 import com.thepascal.todolist.ui.viewmodels.utils.ToDoViewModelFactory
 import org.koin.androidx.viewmodel.dsl.viewModel
@@ -17,6 +18,7 @@ val viewModelModule = module {
     factory { ToDoViewModelFactory(repository = get()) }
     factory { HomeViewModelFactory(repository = get()) }
     factory { CompletedViewModelFactory(repository = get()) }
+    factory { DeletedViewModelFactory(repository = get()) }
 }
 
 val databaseModule = module {

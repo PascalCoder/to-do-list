@@ -7,24 +7,25 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import android.widget.Toast
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.thepascal.todolist.R
 import com.thepascal.todolist.adapter.ToDoAdapter
-import com.thepascal.todolist.model.DataManager
+import com.thepascal.todolist.ui.fragments.ScopedFragment
+import com.thepascal.todolist.ui.utils.convertToToDoModelList
+import kotlinx.coroutines.launch
+import org.koin.android.ext.android.inject
 
-class DeletedFragment : Fragment(), ToDoAdapter.OnTaskClickedListener {
+class DeletedFragment : ScopedFragment(), ToDoAdapter.OnTaskClickedListener {
 
-    private val deletedViewModel: DeletedViewModel by lazy { ViewModelProvider(this).get(DeletedViewModel::class.java) }
-    private val deletedTasksLayoutManager by lazy { LinearLayoutManager(context) }
-    private val deletedTasksAdapter by lazy {
-        val adapter = ToDoAdapter(requireContext(), DataManager.deletedTaskList)
-        adapter.setOnTaskClickedListener(this)
-        adapter
+    private val mDeletedViewModelFactory: DeletedViewModelFactory by inject()
+    private val deletedViewModel: DeletedViewModel by lazy {
+        ViewModelProvider(this, mDeletedViewModelFactory).get(DeletedViewModel::class.java)
     }
+    private val deletedTasksLayoutManager by lazy { LinearLayoutManager(context) }
+    private lateinit var deletedTasksAdapter: ToDoAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -38,11 +39,22 @@ class DeletedFragment : Fragment(), ToDoAdapter.OnTaskClickedListener {
             textView.text = it
         })
 
-        val recyclerView = root.findViewById<RecyclerView?>(R.id.deletedTasksRecyclerView)
-        recyclerView?.layoutManager = deletedTasksLayoutManager
-        recyclerView?.adapter = deletedTasksAdapter
-
         return root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        launch {
+            deletedViewModel.getDeletedTasks().observe(viewLifecycleOwner, Observer {
+                deletedTasksAdapter = ToDoAdapter(requireContext(), it.convertToToDoModelList())
+                deletedTasksAdapter.setOnTaskClickedListener(this@DeletedFragment)
+
+                val recyclerView = view.findViewById<RecyclerView?>(R.id.deletedTasksRecyclerView)
+                recyclerView?.layoutManager = deletedTasksLayoutManager
+                recyclerView?.adapter = deletedTasksAdapter
+            })
+        }
     }
 
     override fun onCheckBoxClicked(itemPosition: Int) {
