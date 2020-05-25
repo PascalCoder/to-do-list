@@ -101,6 +101,17 @@ class HomeFragment : ScopedFragment(), ToDoAdapter.OnTaskClickedListener {
     }
 
     override fun onDeleteImageClicked(itemPosition: Int) {
-        homeViewModel.handleTaskDeleted(itemPosition)
+
+        launch {
+            val taskEntity = activeTasks[itemPosition]
+            position = itemPosition
+
+            if (position != -1) {
+                homeViewModel.handleTaskDeleted(taskEntity)
+                position = -1
+            }
+            Toast.makeText(requireContext(), "Task deleted", Toast.LENGTH_LONG).show()
+        }
+
     }
 }

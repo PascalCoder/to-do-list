@@ -6,12 +6,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.thepascal.todolist.R
 import com.thepascal.todolist.adapter.ToDoAdapter
+import com.thepascal.todolist.db.entities.TaskEntity
 import com.thepascal.todolist.ui.fragments.ScopedFragment
 import com.thepascal.todolist.ui.utils.convertToToDoModelList
 import kotlinx.coroutines.launch
@@ -24,17 +26,10 @@ class CompletedFragment : ScopedFragment(), ToDoAdapter.OnTaskClickedListener {
         ViewModelProvider(this, mCompletedViewModelFactory).get(CompletedViewModel::class.java)
     }
     private val completedTasksLayoutManager by lazy { LinearLayoutManager(context) }
-    private lateinit var completedTasksAdapter: ToDoAdapter /*by lazy {
-        val adapter = ToDoAdapter(requireContext(), DataManager.completedTaskList)
-        adapter.setOnTaskClickedListener(this)
-        adapter
-    }*/
+    private lateinit var completedTasksAdapter: ToDoAdapter
 
-    /*init {
-        launch {
-
-        }
-    }*/
+    private var completedTasks: List<TaskEntity> = mutableListOf()
+    private var position = -1
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -46,13 +41,6 @@ class CompletedFragment : ScopedFragment(), ToDoAdapter.OnTaskClickedListener {
         completedViewModel.text.observe(viewLifecycleOwner, Observer {
             textView.text = it
         })
-        /*val recyclerView = root.findViewById<RecyclerView?>(R.id.completedTasksRecyclerView)
-        recyclerView?.layoutManager = completedTasksLayoutManager
-        recyclerView?.adapter = completedTasksAdapter*/
-
-        /*launch {
-            completedViewModel.loadCompletedTasks()
-        }*/
 
         return root
     }
@@ -61,7 +49,7 @@ class CompletedFragment : ScopedFragment(), ToDoAdapter.OnTaskClickedListener {
         super.onViewCreated(view, savedInstanceState)
 
         launch {
-            //completedViewModel.loadCompletedTasks()
+
             completedViewModel.getCompletedTasks().observe(viewLifecycleOwner, Observer {
 
                 completedTasksAdapter = ToDoAdapter(requireContext(), it.convertToToDoModelList())
@@ -73,14 +61,45 @@ class CompletedFragment : ScopedFragment(), ToDoAdapter.OnTaskClickedListener {
             })
         }
 
+        launch {
+            completedViewModel.getCompletedTasks().observe(viewLifecycleOwner, Observer {
+                completedTasks = it
+            })
+        }
+
     }
 
     override fun onCheckBoxClicked(itemPosition: Int) {
         Log.d("Completed Fragment", "Item was clicked!")
-        completedViewModel.handleTaskCompleted(itemPosition)
+        launch {
+
+            val taskEntity = completedTasks[itemPosition]
+            position = itemPosition
+
+            if (position != -1) {
+                completedViewModel.handleTaskReactivated(taskEntity)
+                position = -1
+            }
+
+            Toast.makeText(requireContext(), "Task is Active again.", Toast.LENGTH_LONG).show()
+        }
+
     }
 
     override fun onDeleteImageClicked(itemPosition: Int) {
-        completedViewModel.handleTaskDeleted(itemPosition)
+
+        launch {
+
+            val taskEntity = completedTasks[itemPosition]
+            position = itemPosition
+
+            if (position != -1) {
+                completedViewModel.handleTaskDeleted(taskEntity)
+                Toast.makeText(requireContext(), "Task was deleted.", Toast.LENGTH_LONG).show()
+                position = -1
+            }
+
+        }
+
     }
 }

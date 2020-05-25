@@ -20,18 +20,21 @@ class CompletedViewModel(private val repository: TaskRepository) : ViewModel() {
     val completedTasks: LiveData<List<TaskEntity>>
         get() = _completedTasks
 
-    /*init {
-        loadCompletedTasks()
-    }*/
+    suspend fun handleTaskReactivated(taskEntity: TaskEntity?) {
 
-    fun handleTaskCompleted(itemPosition: Int) {
-        val toDoModel = DataManager.completedTaskList[itemPosition]
-        DataManager.completedTaskList[itemPosition].taskState = TaskState.ACTIVE
-        DataManager.activeTaskList.add(toDoModel)
-        DataManager.completedTaskList.removeAt(itemPosition)
+        taskEntity?.let {
+            it.taskState = TaskState.ACTIVE
+            repository.updateTask(taskEntity)
+        }
+
     }
 
-    fun handleTaskDeleted(itemPosition: Int) {
+    suspend fun handleTaskDeleted(taskEntity: TaskEntity?) {
+
+        taskEntity?.let {
+            it.taskState = TaskState.DELETED
+            repository.updateTask(taskEntity)
+        }
 
     }
 

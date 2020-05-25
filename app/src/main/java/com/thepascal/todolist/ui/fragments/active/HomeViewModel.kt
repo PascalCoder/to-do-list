@@ -28,10 +28,12 @@ class HomeViewModel(private val repository: TaskRepository) : ViewModel() {
 
     }
 
-    fun handleTaskDeleted(itemPosition: Int) {
-        val toDoModel = DataManager.activeTaskList[itemPosition]
-        DataManager.activeTaskList[itemPosition].taskState = TaskState.DELETED
-        DataManager.deletedTaskList.add(toDoModel)
-        DataManager.activeTaskList.removeAt(itemPosition)
+    suspend fun handleTaskDeleted(taskEntity: TaskEntity?) {
+
+        taskEntity?.let {
+            it.taskState = TaskState.DELETED
+            repository.updateTask(taskEntity)
+        }
+
     }
 }
