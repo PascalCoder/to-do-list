@@ -5,7 +5,6 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -16,8 +15,6 @@ import com.thepascal.todolist.adapter.ToDoAdapter
 import com.thepascal.todolist.db.entities.TaskEntity
 import com.thepascal.todolist.ui.fragments.ScopedFragment
 import com.thepascal.todolist.ui.utils.convertToToDoModelList
-import com.thepascal.todolist.ui.viewmodels.ToDoViewModel
-import com.thepascal.todolist.ui.viewmodels.utils.ToDoViewModelFactory
 import kotlinx.coroutines.launch
 import org.koin.android.ext.android.inject
 
@@ -27,12 +24,7 @@ class HomeFragment : ScopedFragment(), ToDoAdapter.OnTaskClickedListener {
     private val homeViewModel: HomeViewModel by lazy {
         ViewModelProvider(this, mHomeViewModelFactory).get(HomeViewModel::class.java)
     }
-    private val mToDoViewModelFactory by inject<ToDoViewModelFactory>()
-    private val toDoViewModel: ToDoViewModel by lazy {
-        ViewModelProvider(this, mToDoViewModelFactory).get(
-            ToDoViewModel::class.java
-        )
-    }
+
     private val homeLayoutManager by lazy { LinearLayoutManager(context) }
     private lateinit var homeAdapter: ToDoAdapter
 
@@ -46,25 +38,26 @@ class HomeFragment : ScopedFragment(), ToDoAdapter.OnTaskClickedListener {
     ): View? {
         val root = inflater.inflate(R.layout.fragment_home, container, false)
 
-        launch {
-            toDoViewModel.getActiveTasks().observe(viewLifecycleOwner, Observer {
-                activeTasks = it
-                homeAdapter = ToDoAdapter(requireContext(), activeTasks.convertToToDoModelList())
-                homeAdapter.setOnTaskClickedListener(this@HomeFragment)
-
-                val recyclerView = root.findViewById<RecyclerView?>(R.id.homeRecyclerView)
-                recyclerView?.layoutManager = homeLayoutManager
-                recyclerView?.adapter = homeAdapter
-            })
-        }
-
         return root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         launch {
-            toDoViewModel.getActiveTasks().observe(viewLifecycleOwner, Observer {
+            homeViewModel.getActiveTasks().observe(viewLifecycleOwner, Observer {
+                activeTasks = it
+                homeAdapter = ToDoAdapter(requireContext(), activeTasks.convertToToDoModelList())
+                homeAdapter.setOnTaskClickedListener(this@HomeFragment)
+
+                val recyclerView = view.findViewById<RecyclerView?>(R.id.homeRecyclerView)
+                recyclerView?.layoutManager = homeLayoutManager
+                recyclerView?.adapter = homeAdapter
+            })
+        }
+
+        launch {
+            homeViewModel.getActiveTasks().observe(viewLifecycleOwner, Observer {
                 activeTasks = it
             })
         }

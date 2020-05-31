@@ -30,4 +30,8 @@ class HomeViewModel(private val repository: TaskRepository) : ViewModel() {
         }
 
     }
+
+    suspend fun getActiveTasks(): LiveData<List<TaskEntity>> {
+        return repository.loadActiveTasks()
+    }
 }
