@@ -45,20 +45,16 @@ class HomeFragment : ScopedFragment(), ToDoAdapter.OnTaskClickedListener {
         savedInstanceState: Bundle?
     ): View? {
         val root = inflater.inflate(R.layout.fragment_home, container, false)
-        val textView: TextView = root.findViewById(R.id.text_home)
-        homeViewModel.text.observe(viewLifecycleOwner, Observer {
-            textView.text = it
-        })
 
         launch {
             toDoViewModel.getActiveTasks().observe(viewLifecycleOwner, Observer {
                 activeTasks = it
-                homeAdapter = ToDoAdapter(requireContext(), activeTasks.convertToToDoModelList())//DataManager.activeTaskList
+                homeAdapter = ToDoAdapter(requireContext(), activeTasks.convertToToDoModelList())
                 homeAdapter.setOnTaskClickedListener(this@HomeFragment)
 
                 val recyclerView = root.findViewById<RecyclerView?>(R.id.homeRecyclerView)
-                recyclerView?.layoutManager = homeLayoutManager//LinearLayoutManager(context)
-                recyclerView?.adapter = homeAdapter//toDoAdapter
+                recyclerView?.layoutManager = homeLayoutManager
+                recyclerView?.adapter = homeAdapter
             })
         }
 

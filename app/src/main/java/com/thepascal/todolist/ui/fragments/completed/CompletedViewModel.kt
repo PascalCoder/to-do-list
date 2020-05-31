@@ -11,11 +11,6 @@ import com.thepascal.todolist.repository.TaskRepository
 
 class CompletedViewModel(private val repository: TaskRepository) : ViewModel() {
 
-    private val _text = MutableLiveData<String>().apply {
-        value = "This is gallery Fragment"
-    }
-    val text: LiveData<String> = _text
-
     private var _completedTasks = MutableLiveData<List<TaskEntity>>()
     val completedTasks: LiveData<List<TaskEntity>>
         get() = _completedTasks

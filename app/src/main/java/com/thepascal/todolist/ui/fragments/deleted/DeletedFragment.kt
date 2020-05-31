@@ -34,10 +34,6 @@ class DeletedFragment : ScopedFragment(), ToDoAdapter.OnTaskClickedListener {
     ): View? {
 
         val root = inflater.inflate(R.layout.fragment_slideshow, container, false)
-        val textView: TextView = root.findViewById(R.id.text_slideshow)
-        deletedViewModel.text.observe(viewLifecycleOwner, Observer {
-            textView.text = it
-        })
 
         return root
     }
