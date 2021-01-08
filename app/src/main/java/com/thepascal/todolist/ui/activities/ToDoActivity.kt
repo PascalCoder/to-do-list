@@ -13,6 +13,7 @@ import android.widget.TimePicker
 import android.widget.Toast
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.Observer
 import com.thepascal.todolist.POSITION_NOT_SET
 import com.thepascal.todolist.R
 import com.thepascal.todolist.TASK_POSITION
@@ -23,6 +24,7 @@ import com.thepascal.todolist.model.ToDoModel
 import com.thepascal.todolist.ui.fragments.DatePickerFragment
 import com.thepascal.todolist.ui.fragments.TimePickerFragment
 import com.thepascal.todolist.ui.utils.convertToTaskEntity
+import com.thepascal.todolist.ui.utils.convertToToDoModel
 import com.thepascal.todolist.ui.viewmodels.ToDoViewModel
 import com.thepascal.todolist.ui.viewmodels.utils.ToDoViewModelFactory
 import kotlinx.android.synthetic.main.activity_to_do.*
@@ -43,6 +45,7 @@ class ToDoActivity : ScopedActivity(), DatePickerDialog.OnDateSetListener,
         )
     }
     private val calendar: Calendar = Calendar.getInstance()
+    private var update = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -54,6 +57,7 @@ class ToDoActivity : ScopedActivity(), DatePickerDialog.OnDateSetListener,
 
         if (intent.hasExtra(TASK_POSITION)) {
             toDoTaskSubmitButton.text = getString(R.string.update_task_button_text)
+            update = true
             toDoViewModel.taskPosition = intent.getIntExtra(
                 TASK_POSITION,
                 POSITION_NOT_SET
@@ -64,6 +68,7 @@ class ToDoActivity : ScopedActivity(), DatePickerDialog.OnDateSetListener,
                 repopulateFieldsWithViewModel()
             }
         } else {
+            update = false
             if (!toDoViewModel.isViewModelNew) {
                 repopulateFieldsWithViewModel()
             }
@@ -91,12 +96,17 @@ class ToDoActivity : ScopedActivity(), DatePickerDialog.OnDateSetListener,
 
         toDoTaskSubmitButton.setOnClickListener {
             setUpToDoViewModelWithUserInputs()
-            toDoViewModel.createOrUpdateTask(toDoViewModel.taskPosition)
+            //toDoViewModel.createOrUpdateTask(toDoViewModel.taskPosition)
 
             launch {
                 toDoViewModel.toDoTask?.let {
-                    toDoViewModel.addTask(it.convertToTaskEntity())
-                    Toast.makeText(this@ToDoActivity, "Task inserted",Toast.LENGTH_LONG).show()
+                    if (update) {
+                        toDoViewModel.updateTask(it.convertToTaskEntity())
+                        Toast.makeText(this@ToDoActivity, "Task updated",Toast.LENGTH_LONG).show()
+                    } else {
+                        toDoViewModel.addTask(it.convertToTaskEntity())
+                        Toast.makeText(this@ToDoActivity, "Task inserted",Toast.LENGTH_LONG).show()
+                    }
                 }
             }
             Log.d("Created task", "Task: ${toDoViewModel.toDoTask?.convertToTaskEntity()}")
@@ -132,22 +142,29 @@ class ToDoActivity : ScopedActivity(), DatePickerDialog.OnDateSetListener,
     }
 
     private fun updateTaskAtPosition(position: Int) {
-        toDoViewModel.toDoTask = DataManager.activeTaskList[position]
+        //toDoViewModel.toDoTask = DataManager.activeTaskList[position] //needs to be updated to use the db tasks
+        //Let's retrieve the active task list from the db
+        //and assign the one at "position" to toDoViewModel.toDoTask
+        launch {
+            toDoViewModel.getActiveTasks().observe(this@ToDoActivity, Observer {
+                toDoViewModel.toDoTask = (it[position]).convertToToDoModel()
 
-        val taskTypePosition: Int =
-            DataManager.taskTypeList.indexOf<Any?>(toDoViewModel.toDoTask?.type)
-        toDoTaskTypeSpinner.setSelection(taskTypePosition)
-        toDoTaskTitle.setText(toDoViewModel.toDoTask?.title)
-        toDoTaskDescription.setText(toDoViewModel.toDoTask?.description)
-        toDoTaskDueDateText.text = toDoViewModel.toDoTask?.dueDate
-        toDoTaskDueTimeText.text = toDoViewModel.toDoTask?.dueTime
+                val taskTypePosition: Int =
+                    DataManager.taskTypeList.indexOf<Any?>(toDoViewModel.toDoTask?.type)
+                toDoTaskTypeSpinner.setSelection(taskTypePosition)
+                toDoTaskTitle.setText(toDoViewModel.toDoTask?.title)
+                toDoTaskDescription.setText(toDoViewModel.toDoTask?.description)
+                toDoTaskDueDateText.text = toDoViewModel.toDoTask?.dueDate
+                toDoTaskDueTimeText.text = toDoViewModel.toDoTask?.dueTime
 
-        toDoViewModel.toDoTask?.address?.let {
-            showAddressField()
-            fillInAddressFields(it)
+                toDoViewModel.toDoTask?.address?.let { address ->
+                    showAddressField()
+                    fillInAddressFields(address)
+                }
+
+                toDoTaskColorSelector.selectedColorValue = toDoViewModel.toDoTask?.color
+            })
         }
-
-        toDoTaskColorSelector.selectedColorValue = toDoViewModel.toDoTask?.color
     }
 
     private fun showAddressField() {

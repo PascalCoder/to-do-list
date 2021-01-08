@@ -15,6 +15,7 @@ import com.thepascal.todolist.adapter.ToDoAdapter
 import com.thepascal.todolist.db.entities.TaskEntity
 import com.thepascal.todolist.ui.fragments.ScopedFragment
 import com.thepascal.todolist.ui.utils.convertToToDoModelList
+import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import org.koin.android.ext.android.inject
 
@@ -43,8 +44,19 @@ class HomeFragment : ScopedFragment(), ToDoAdapter.OnTaskClickedListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         launch {
+            homeViewModel.activeTasks.await().observe(viewLifecycleOwner, Observer {
+                homeAdapter = ToDoAdapter(requireContext(), it.convertToToDoModelList())
+                homeAdapter.setOnTaskClickedListener(this@HomeFragment)
+
+                val recyclerView = view.findViewById<RecyclerView?>(R.id.homeRecyclerView)
+                recyclerView?.layoutManager = homeLayoutManager
+                recyclerView?.adapter = homeAdapter
+            })
+        }//.onAwait
+
+
+        /*launch {
             homeViewModel.getActiveTasks().observe(viewLifecycleOwner, Observer {
                 activeTasks = it
                 homeAdapter = ToDoAdapter(requireContext(), activeTasks.convertToToDoModelList())
@@ -54,7 +66,7 @@ class HomeFragment : ScopedFragment(), ToDoAdapter.OnTaskClickedListener {
                 recyclerView?.layoutManager = homeLayoutManager
                 recyclerView?.adapter = homeAdapter
             })
-        }
+        }*/
 
         launch {
             homeViewModel.getActiveTasks().observe(viewLifecycleOwner, Observer {

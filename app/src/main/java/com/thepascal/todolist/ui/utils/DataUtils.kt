@@ -25,7 +25,7 @@ fun AddressEntity.convertToAddressModel(): AddressModel {
 
 fun ToDoModel.convertToTaskEntity(): TaskEntity {
     return TaskEntity(
-        0, type, title,
+        id, type, title,
         description, datePosted,
         dueDate, dueTime,
         address?.convertToAddressEntity(),

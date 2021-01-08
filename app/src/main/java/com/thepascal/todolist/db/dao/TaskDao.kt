@@ -15,7 +15,7 @@ interface TaskDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertOrUpdateTask(task: TaskEntity)
 
-    @Update
+    @Update//(onConflict = OnConflictStrategy.REPLACE)
     fun updateTask(task: TaskEntity)
 
     @Query("SELECT * FROM tasks" )

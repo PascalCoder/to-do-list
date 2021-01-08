@@ -54,6 +54,10 @@ class ToDoViewModel(private val repository: TaskRepository): ViewModel() {
         repository.insertTask(task)
     }
 
+    suspend fun updateTask(task: TaskEntity) {
+        repository.updateTask(task)
+    }
+
     suspend fun getAllTasks(): LiveData<List<TaskEntity>> {
         return repository.loadAllTasks()
     }
